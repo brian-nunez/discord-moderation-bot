@@ -1,0 +1,30 @@
+{
+  "name": "moderation-bot",
+  "version": "0.0.1",
+  "description": "Moderation bot",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "ncc build src/index.js -o build/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brian-nunez/darklandmc-mod-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "moderation",
+    "bot"
+  ],
+  "author": "Brian Nunez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brian-nunez/darklandmc-mod-bot/issues"
+  },
+  "homepage": "https://github.com/brian-nunez/darklandmc-mod-bot#readme",
+  "devDependencies": {
+    "@vercel/ncc": "^0.27.0"
+  },
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
