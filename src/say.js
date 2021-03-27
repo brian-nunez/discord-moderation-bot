@@ -14,5 +14,6 @@ export default async (config, client, message, args) => {
     await response.delete({ timeout: 30000 });
     return;
   }
-  message.channel.send(text);
+  await message.channel.send(text);
+  await message.delete();
 }

@@ -33259,7 +33259,7 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 /* harmony default export */ const help = ((config, client, message) => {
   const helpEmbed = new discord.MessageEmbed()
     .setColor('GREEN')
-    .setTitle(`❄${client.user.username}❄ commands`)
+    .setTitle(`${client.user.username} commands`)
     .setDescription(`**Prefix:** ${config.prefix}`)
     .addField(`\`ping\``, `Check your bot's ping`)
     .addField(`\`rps\``, `Play rock paper scissors`)
@@ -33486,7 +33486,8 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     await response.delete({ timeout: 30000 });
     return;
   }
-  message.channel.send(text);
+  await message.channel.send(text);
+  await message.delete();
 });
 
 // CONCATENATED MODULE: ./src/purge.js
@@ -33499,7 +33500,7 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     return;
   }
 
-  const number = args.join(" ");
+  const number = Number(args[0]);
 
   if (!number) {
     response = await message.channel.send("You haven't specified a number to purge");
@@ -33507,7 +33508,14 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     return;
   }
 
-   message.channel.bulkDelete(number).catch(console.error)
+  if (number > 100) {
+    response = await message.channel.send("Max number of purged messages is 100");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  await message.delete();
+  await message.channel.bulkDelete(number);
 });
 
 // CONCATENATED MODULE: ./src/rps.js

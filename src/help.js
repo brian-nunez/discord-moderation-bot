@@ -3,7 +3,7 @@ import Discord from 'discord.js';
 export default (config, client, message) => {
   const helpEmbed = new Discord.MessageEmbed()
     .setColor('GREEN')
-    .setTitle(`❄${client.user.username}❄ commands`)
+    .setTitle(`${client.user.username} commands`)
     .setDescription(`**Prefix:** ${config.prefix}`)
     .addField(`\`ping\``, `Check your bot's ping`)
     .addField(`\`rps\``, `Play rock paper scissors`)

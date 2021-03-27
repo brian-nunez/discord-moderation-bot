@@ -7,7 +7,7 @@ export default async (config, client, message, args) => {
     return;
   }
 
-  const number = args.join(" ");
+  const number = Number(args[0]);
 
   if (!number) {
     response = await message.channel.send("You haven't specified a number to purge");
@@ -15,5 +15,12 @@ export default async (config, client, message, args) => {
     return;
   }
 
-   message.channel.bulkDelete(number).catch(console.error)
+  if (number > 100) {
+    response = await message.channel.send("Max number of purged messages is 100");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  await message.delete();
+  await message.channel.bulkDelete(number);
 }
