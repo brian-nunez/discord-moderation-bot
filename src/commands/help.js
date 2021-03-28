@@ -7,7 +7,7 @@ export default (config, client, message) => {
     .setDescription(`**Prefix:** ${config.prefix}`)
     .addField(`\`ping\``, `Check your bot's ping`)
     .addField(`\`rps\``, `Play rock paper scissors`)
-    .setFooter('Talk to an admin if you cannot use a command');
+    .setFooter('Created by Derthon#9538');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||

@@ -1,5 +1,5 @@
 {
-  "token": "<Discord Bot Token>",
+  "token": "",
   "prefix": ">",
-  "ownerID": "<Owner ID>"
+  "ownerID": ""
 }

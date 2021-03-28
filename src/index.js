@@ -1,19 +1,6 @@
 import Discord from 'discord.js';
 import getConfig from './getConfig';
-import help from './help';
-import ping from './ping';
-import kick from './kick';
-import ban from './ban';
-import add from './add';
-import remove from './remove';
-import say from './say';
-import purge from './purge';
-import rps from './rps';
-import setavatar from './setavatar';
-import setname from './setname';
-import setstatus from './setstatus';
-import setgame from './setgame';
-import shutdown from './shutdown';
+import * as commands from './commands';
 
 const client = new Discord.Client();
 
@@ -27,31 +14,15 @@ client.on('message', message => {
   if (message.content.indexOf(config.prefix) !== 0) return;
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-  const command = args.shift().toLowerCase()
+  const commandToRun = args.shift().toLowerCase()
 
   const commandParams = [config, client, message, args];
 
-  const commandMap = {
-    help,
-    ping,
-    kick,
-    ban,
-    add,
-    remove,
-    say,
-    purge,
-    rps,
-    setavatar,
-    setname,
-    setstatus,
-    setgame,
-    shutdown,
-  };
   const unknownCommand = () => message.channel.send(`Unknown command... Try using ${config.prefix}help`);
 
-  const { [command]: commandToRun = unknownCommand } = commandMap;
+  const { [commandToRun]: command = unknownCommand } = commands;
 
-  commandToRun(...commandParams);
+  command(...commandParams);
 });
 
 client.login(getConfig().token);
