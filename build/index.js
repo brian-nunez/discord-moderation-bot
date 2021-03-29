@@ -33133,7 +33133,7 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ 9899:
+/***/ 7818:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -33146,6 +33146,8 @@ __nccwpck_require__.r(commands_namespaceObject);
 __nccwpck_require__.d(commands_namespaceObject, {
   "add": () => add,
   "ban": () => ban,
+  "disable": () => disable,
+  "enable": () => enable,
   "help": () => help,
   "iplookup": () => iplookup,
   "joke": () => joke,
@@ -33964,7 +33966,64 @@ function getCountryCodeName(cc) {
   }
 });
 
+// CONCATENATED MODULE: ./src/utils/BotState.js
+class BotState {
+  constructor() {
+    this.state = {
+      disabled: false,
+    };
+  }
+
+  enable() {
+    this.state.disabled = false;
+  }
+
+  disable() {
+    this.state.disabled = true;
+  }
+
+  isDisabled() {
+    return this.state.disabled;
+  }
+}
+
+/* harmony default export */ const utils_BotState = (new BotState());
+
+// CONCATENATED MODULE: ./src/commands/enable.js
+
+
+/* harmony default export */ const enable = (async (config, client, message, args) => {
+  let response = null;
+
+  if (message.author.id !== config.ownerID) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  utils_BotState.enable();
+  await message.channel.send('Bot is now enabled!');
+});
+
+// CONCATENATED MODULE: ./src/commands/disable.js
+
+
+/* harmony default export */ const disable = (async (config, client, message, args) => {
+  let response = null;
+
+  if (message.author.id !== config.ownerID) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  utils_BotState.disable();
+  await message.channel.send('Bot is now disabled!');
+});
+
 // CONCATENATED MODULE: ./src/commands/index.js
+
+
 
 
 
@@ -33989,19 +34048,25 @@ function getCountryCodeName(cc) {
 
 
 
+
 const client = new discord.Client();
 
 client.on('ready', _ => {
   console.log("Bot Started");
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   const config = getConfig({ fresh: true });
   if (message.author.bot) return;
   if (message.content.indexOf(config.prefix) !== 0) return;
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-  const commandToRun = args.shift().toLowerCase()
+  const commandToRun = args.shift().toLowerCase();
+
+  if (utils_BotState.isDisabled() && commandToRun !== 'enable') {
+    await message.channel.send('Bot commands are disabled');
+    return;
+  }
 
   const commandParams = [config, client, message, args];
 
@@ -34287,6 +34352,6 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(9899);
+/******/ 	return __nccwpck_require__(7818);
 /******/ })()
 ;

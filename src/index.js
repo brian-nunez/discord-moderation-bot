@@ -1,6 +1,7 @@
 import Discord from 'discord.js';
 import getConfig from './getConfig';
 import * as commands from './commands';
+import BotState from './utils/BotState';
 
 const client = new Discord.Client();
 
@@ -8,13 +9,18 @@ client.on('ready', _ => {
   console.log("Bot Started");
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   const config = getConfig({ fresh: true });
   if (message.author.bot) return;
   if (message.content.indexOf(config.prefix) !== 0) return;
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-  const commandToRun = args.shift().toLowerCase()
+  const commandToRun = args.shift().toLowerCase();
+
+  if (BotState.isDisabled() && commandToRun !== 'enable') {
+    await message.channel.send('Bot commands are disabled');
+    return;
+  }
 
   const commandParams = [config, client, message, args];
 

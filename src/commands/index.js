@@ -14,6 +14,8 @@ import setgame from './setgame';
 import shutdown from './shutdown';
 import joke from './joke';
 import iplookup from './iplookup';
+import enable from './enable';
+import disable from './disable';
 
 export {
   help,
@@ -32,4 +34,6 @@ export {
   shutdown,
   joke,
   iplookup,
+  enable,
+  disable,
 }
