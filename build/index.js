@@ -33341,7 +33341,7 @@ class BotState {
 
 
 
-/* harmony default export */ const help = ((config, client, message) => {
+/* harmony default export */ const help = (async (config, client, message) => {
   const helpEmbed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setTitle(`${client.user.username} commands`)
@@ -33353,6 +33353,14 @@ class BotState {
     .addField(`\`joke\``, 'Displays a random joke')
     .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
+  await message.channel.send(helpEmbed);
+
+  const staffEmbed = new discord.MessageEmbed()
+    .setColor('GREEN')
+    .setTitle(`${client.user.username} commands`)
+    .setDescription(`Staff Commands`)
+    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
     message.member.hasPermission('BAN_MEMBERS') ||
@@ -33360,50 +33368,55 @@ class BotState {
     message.member.hasPermission('MANAGE_MESSAGES') ||
     message.member.hasPermission('MUTE_MEMBERS')
   ) {
-    helpEmbed
-      .addField('\b', 'Admin Commands');
     if (message.member.hasPermission('KICK_MEMBERS')) {
-      helpEmbed.addField(`\`kick\``, `Usage: **${config.prefix}kick [@User]**\n**${config.prefix}kick [@User][Reason]**`);
+      staffEmbed.addField(`\`kick\``, `Usage: **${config.prefix}kick [@User]**\n**${config.prefix}kick [@User][Reason]**`);
     }
     
     if (message.member.hasPermission('BAN_MEMBERS')) {
-      helpEmbed.addField(`\`ban\``, `Usage: **${config.prefix}ban [@User]**\n**${config.prefix}ban [@User][Reason]**`);
+      staffEmbed.addField(`\`ban\``, `Usage: **${config.prefix}ban [@User]**\n**${config.prefix}ban [@User][Reason]**`);
     }
     
     if (message.member.hasPermission('MANAGE_ROLES')) {
-      helpEmbed
+      staffEmbed
         .addField(`\`add\``, `Adds a role to a user \nUsage: **${config.prefix}add [@User] [Role]**`)
         .addField(`\`remove\``, `Removes a role from a user \nUsage: **${config.prefix}remove [@User] [Role]**`);
-      helpEmbed
+      staffEmbed
         .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
-      helpEmbed
+      staffEmbed
         .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
     }
     
     if (message.member.hasPermission('MANAGE_MESSAGES')) {
-      helpEmbed
+      staffEmbed
         .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`);
     }
 
     if (message.member.hasPermission('MUTE_MEMBERS')) {
-      helpEmbed
+      staffEmbed
         .addField(`\`mute\``, `Allows you to mute members ${config.prefix}mute`);
-      helpEmbed
+      staffEmbed
         .addField(`\`unmute\``, `Allows you to unmute members ${config.prefix}unmute`);
-      helpEmbed
+      staffEmbed
         .addField(`\`tempmute\``, `Allows you to temporarily mute members ${config.prefix}mute <member> [duration] (reason)`);
-      helpEmbed
+      staffEmbed
         .addField(`\`warn\``, `Allows you to warn members ${config.prefix}warn <member> <reason>`);
-      helpEmbed
+      staffEmbed
         .addField(`\`unwarn\``, `Allows you to unwarn members ${config.prefix}unwarn <member>`);
-      helpEmbed
+      staffEmbed
         .addField(`\`warnlist\``, `Lists all warned members and reasons ${config.prefix}warnlist <optional member>`);
     }
 
+    await message.channel.send(staffEmbed);
+
+    const ownerEmbed = new discord.MessageEmbed()
+      .setColor('GREEN')
+      .setTitle(`${client.user.username} commands`)
+      .setDescription(`Owner Commands`)
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+
     if (message.author.id === config.ownerID || utils_BotState.getAllowDevelopers()) {
       if (message.author.id === config.ownerID) {
-        helpEmbed
-          .addField('\b', 'Owner Commands')
+        ownerEmbed
           .addField('\`dev\`', 'Allows developers to use any command')
           .addField(`\`say\``, `Have the bot say something`)
           .addField(`\`setavatar\``, `Changes the bots avatar`)
@@ -33412,8 +33425,7 @@ class BotState {
           .addField(`\`setgame\``, `Changes the bots game display`)
           .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
       } else if (utils_BotState.getAllowDevelopers() && message.member.roles.cache.find(r => r.name === config.roles.dev)) {
-        helpEmbed
-          .addField('\b', 'Owner/Dev enabled Commands')
+        ownerEmbed
           .addField(`\`say\``, `Have the bot say something`)
           .addField(`\`setavatar\``, `Changes the bots avatar`)
           .addField(`\`setname\``, `Changes the bots display name`)
@@ -33421,10 +33433,9 @@ class BotState {
           .addField(`\`setgame\``, `Changes the bots game display`)
           .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
       }
+      await message.channel.send(ownerEmbed);
     }
   }
-
-  message.channel.send(helpEmbed);
 });
 
 // CONCATENATED MODULE: ./src/commands/ping.js
