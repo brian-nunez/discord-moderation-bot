@@ -24,6 +24,7 @@ import tempmute from './tempmute';
 import warn from './warn';
 import unwarn from './unwarn';
 import warnlist from './warnlist';
+import dev from './dev';
 
 export {
   help,
@@ -52,4 +53,5 @@ export {
   warn,
   warnlist,
   unwarn,
+  dev,
 }

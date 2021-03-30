@@ -1,4 +1,5 @@
 import Discord from 'discord.js';
+import BotState from '../utils/BotState';
 
 export default (config, client, message) => {
   const helpEmbed = new Discord.MessageEmbed()
@@ -59,15 +60,27 @@ export default (config, client, message) => {
         .addField(`\`warnlist\``, `Lists all warned members and reasons ${config.prefix}warnlist <optional member>`);
     }
 
-    if (message.author.id === config.ownerID) {
-      helpEmbed
-        .addField('\b', 'Owner Commands')
-        .addField(`\`say\``, `Have the bot say something`)
-        .addField(`\`setavatar\``, `Changes the bots avatar`)
-        .addField(`\`setname\``, `Changes the bots display name`)
-        .addField(`\`setstatus\``, `Changes the bots status`)
-        .addField(`\`setgame\``, `Changes the bots game display`)
-        .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
+    if (message.author.id === config.ownerID || BotState.getAllowDevelopers()) {
+      if (message.author.id === config.ownerID) {
+        helpEmbed
+          .addField('\b', 'Owner Commands')
+          .addField('\`dev\`', 'Allows developers to use any command')
+          .addField(`\`say\``, `Have the bot say something`)
+          .addField(`\`setavatar\``, `Changes the bots avatar`)
+          .addField(`\`setname\``, `Changes the bots display name`)
+          .addField(`\`setstatus\``, `Changes the bots status`)
+          .addField(`\`setgame\``, `Changes the bots game display`)
+          .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
+      } else if (BotState.getAllowDevelopers() && message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        helpEmbed
+          .addField('\b', 'Owner/Dev enabled Commands')
+          .addField(`\`say\``, `Have the bot say something`)
+          .addField(`\`setavatar\``, `Changes the bots avatar`)
+          .addField(`\`setname\``, `Changes the bots display name`)
+          .addField(`\`setstatus\``, `Changes the bots status`)
+          .addField(`\`setgame\``, `Changes the bots game display`)
+          .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
+      }
     }
   }
 

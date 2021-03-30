@@ -3,6 +3,7 @@ class BotState {
     this.state = {
       disabled: false,
       warn: [],
+      allowDevelopers: false,
     };
   }
 
@@ -34,6 +35,14 @@ class BotState {
 
   isDisabled() {
     return this.state.disabled;
+  }
+
+  setAllowDevelopers(bool) {
+    this.state.allowDevelopers = bool;
+  }
+
+  getAllowDevelopers() {
+    return this.state.allowDevelopers;
   }
 }
 

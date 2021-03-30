@@ -19,22 +19,17 @@ export default async (config, client, message, args) => {
     }
   }
 
-  const statusMap = {
-    online: 'online',
-    idle: 'idle',
-    invisible: 'invisible',
-    offline: 'invisible',
-    dnd: 'dnd',
-    'do not disturb': 'dnd',
-  }
+  const [flag] = args;
 
-  const status = statusMap[args[0]] || null;
-
-  if (!status) {
-    response = await message.channel.send(`Must be one of these [${Object.keys(statusMap).join(', ')}]`);
+  if (flag === 'false') {
+    BotState.setAllowDevelopers(false);
+    await message.channel.send("Dev Mode disabled");
+  } else if (flag === 'true') {
+    BotState.setAllowDevelopers(true);
+    await message.channel.send("Dev Mode enabled");
+  } else {
+    response = await message.channel.send("Must provide true or false Usage: dev [true, false]");
     await response.delete({ timeout: 30000 });
     return;
   }
-
-  client.user.setStatus(status);
 }

@@ -33133,7 +33133,7 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ 3630:
+/***/ 6075:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -33146,6 +33146,7 @@ __nccwpck_require__.r(commands_namespaceObject);
 __nccwpck_require__.d(commands_namespaceObject, {
   "add": () => add,
   "ban": () => ban,
+  "dev": () => dev,
   "disable": () => disable,
   "enable": () => enable,
   "help": () => help,
@@ -33285,7 +33286,59 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
   return (_notfoundconfig_default());
 });
 
+// CONCATENATED MODULE: ./src/utils/BotState.js
+class BotState {
+  constructor() {
+    this.state = {
+      disabled: false,
+      warn: [],
+      allowDevelopers: false,
+    };
+  }
+
+  add(type, data = {}) {
+    this.state[type].push({
+      time: new Date(),
+      ...data,
+    });
+  }
+
+  remove(type, memberID) {
+    const originalLength = this.state[type].length;
+    const copy = [...this.state[type]].filter(member => memberID !== member.memberID);
+    this.state[type] = copy;
+    return originalLength - copy.length;
+  }
+
+  getLogs(type) {
+    return this.state[type];
+  }
+
+  enable() {
+    this.state.disabled = false;
+  }
+
+  disable() {
+    this.state.disabled = true;
+  }
+
+  isDisabled() {
+    return this.state.disabled;
+  }
+
+  setAllowDevelopers(bool) {
+    this.state.allowDevelopers = bool;
+  }
+
+  getAllowDevelopers() {
+    return this.state.allowDevelopers;
+  }
+}
+
+/* harmony default export */ const utils_BotState = (new BotState());
+
 // CONCATENATED MODULE: ./src/commands/help.js
+
 
 
 /* harmony default export */ const help = ((config, client, message) => {
@@ -33347,15 +33400,27 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
         .addField(`\`warnlist\``, `Lists all warned members and reasons ${config.prefix}warnlist <optional member>`);
     }
 
-    if (message.author.id === config.ownerID) {
-      helpEmbed
-        .addField('\b', 'Owner Commands')
-        .addField(`\`say\``, `Have the bot say something`)
-        .addField(`\`setavatar\``, `Changes the bots avatar`)
-        .addField(`\`setname\``, `Changes the bots display name`)
-        .addField(`\`setstatus\``, `Changes the bots status`)
-        .addField(`\`setgame\``, `Changes the bots game display`)
-        .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
+    if (message.author.id === config.ownerID || utils_BotState.getAllowDevelopers()) {
+      if (message.author.id === config.ownerID) {
+        helpEmbed
+          .addField('\b', 'Owner Commands')
+          .addField('\`dev\`', 'Allows developers to use any command')
+          .addField(`\`say\``, `Have the bot say something`)
+          .addField(`\`setavatar\``, `Changes the bots avatar`)
+          .addField(`\`setname\``, `Changes the bots display name`)
+          .addField(`\`setstatus\``, `Changes the bots status`)
+          .addField(`\`setgame\``, `Changes the bots game display`)
+          .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
+      } else if (utils_BotState.getAllowDevelopers() && message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        helpEmbed
+          .addField('\b', 'Owner/Dev enabled Commands')
+          .addField(`\`say\``, `Have the bot say something`)
+          .addField(`\`setavatar\``, `Changes the bots avatar`)
+          .addField(`\`setname\``, `Changes the bots display name`)
+          .addField(`\`setstatus\``, `Changes the bots status`)
+          .addField(`\`setgame\``, `Changes the bots game display`)
+          .addField(`\`shutdown\``, `Shuts down the bot (Manual restart is required)`);
+      }
     }
   }
 
@@ -33525,13 +33590,25 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 });
 
 // CONCATENATED MODULE: ./src/commands/say.js
+
+
 /* harmony default export */ const say = (async (config, client, message, args) => {
   let response = null;
 
   if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
-    await response.delete({ timeout: 30000 });
-    return;
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
   }
 
   const text = args.join(" ");
@@ -33585,39 +33662,75 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 });
 
 // CONCATENATED MODULE: ./src/commands/setavatar.js
+
+
 /* harmony default export */ const setavatar = (async (config, client, message, args) => {
   let response = null;
 
   if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
-    await response.delete({ timeout: 30000 });
-    return;
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
   }
 
   client.user.setAvatar(args[0]);
 });
 
 // CONCATENATED MODULE: ./src/commands/setname.js
+
+
 /* harmony default export */ const setname = (async (config, client, message, args) => {
   let response = null;
 
   if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
-    await response.delete({ timeout: 30000 });
-    return;
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
   }
 
   message.guild.me.setNickname(args.join(' '));
 });
 
 // CONCATENATED MODULE: ./src/commands/setstatus.js
+
+
 /* harmony default export */ const setstatus = (async (config, client, message, args) => {
   let response = null;
 
   if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
-    await response.delete({ timeout: 30000 });
-    return;
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
   }
 
   const statusMap = {
@@ -33641,13 +33754,25 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 });
 
 // CONCATENATED MODULE: ./src/commands/setgame.js
+
+
 /* harmony default export */ const setgame = (async (config, client, message, args) => {
   let response = null;
 
   if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
-    await response.delete({ timeout: 30000 });
-    return;
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
   }
 
   const typeMap = {
@@ -33681,13 +33806,25 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 });
 
 // CONCATENATED MODULE: ./src/commands/shutdown.js
+
+
 /* harmony default export */ const shutdown = (async (config, client, message, args) => {
   let response = null;
 
   if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
-    await response.delete({ timeout: 30000 });
-    return;
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
   }
 
   await message.channel.send("Shutting down...");
@@ -34012,48 +34149,6 @@ function getCountryCodeName(cc) {
     await response.delete({ timeout: 30000 });
   }
 });
-
-// CONCATENATED MODULE: ./src/utils/BotState.js
-class BotState {
-  constructor() {
-    this.state = {
-      disabled: false,
-      warn: [],
-    };
-  }
-
-  add(type, data = {}) {
-    this.state[type].push({
-      time: new Date(),
-      ...data,
-    });
-  }
-
-  remove(type, memberID) {
-    const originalLength = this.state[type].length;
-    const copy = [...this.state[type]].filter(member => memberID !== member.memberID);
-    this.state[type] = copy;
-    return originalLength - copy.length;
-  }
-
-  getLogs(type) {
-    return this.state[type];
-  }
-
-  enable() {
-    this.state.disabled = false;
-  }
-
-  disable() {
-    this.state.disabled = true;
-  }
-
-  isDisabled() {
-    return this.state.disabled;
-  }
-}
-
-/* harmony default export */ const utils_BotState = (new BotState());
 
 // CONCATENATED MODULE: ./src/commands/enable.js
 
@@ -34462,7 +34557,44 @@ class BotState {
 
   await message.channel.send(embed);
 });
+// CONCATENATED MODULE: ./src/commands/dev.js
+
+
+/* harmony default export */ const dev = (async (config, client, message, args) => {
+  let response = null;
+
+  if (message.author.id !== config.ownerID) {
+    if (utils_BotState.getAllowDevelopers()) {
+      if (!message.member.roles.cache.find(r => r.name === config.roles.dev)) {
+        response = await message.channel.send(`Insufficient permissions (Requires permission \`Owner\` or \`${config.roles.dev}\`)`);
+        await response.delete({ timeout: 30000 });
+        return;
+      } else {
+        // Do Nothing
+      }
+    } else {
+      response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+      await response.delete({ timeout: 30000 });
+      return;
+    }
+  }
+
+  const [flag] = args;
+
+  if (flag === 'false') {
+    utils_BotState.setAllowDevelopers(false);
+    await message.channel.send("Dev Mode disabled");
+  } else if (flag === 'true') {
+    utils_BotState.setAllowDevelopers(true);
+    await message.channel.send("Dev Mode enabled");
+  } else {
+    response = await message.channel.send("Must provide true or false Usage: dev [true, false]");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+});
 // CONCATENATED MODULE: ./src/commands/index.js
+
 
 
 
@@ -34812,6 +34944,6 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(3630);
+/******/ 	return __nccwpck_require__(6075);
 /******/ })()
 ;
