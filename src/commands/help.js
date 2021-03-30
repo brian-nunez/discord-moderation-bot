@@ -33,15 +33,15 @@ export default (config, client, message) => {
       helpEmbed
         .addField(`\`add\``, `Adds a role to a user \nUsage: **${config.prefix}add [@User] [Role]**`)
         .addField(`\`remove\``, `Removes a role from a user \nUsage: **${config.prefix}remove [@User] [Role]**`);
+      helpEmbed
+        .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
+      helpEmbed
+        .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
     }
     
     if (message.member.hasPermission('MANAGE_MESSAGES')) {
       helpEmbed
         .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`);
-      helpEmbed
-        .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
-      helpEmbed
-        .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
     }
 
     if (message.member.hasPermission('MUTE_MEMBERS')) {

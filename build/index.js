@@ -33321,15 +33321,15 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
       helpEmbed
         .addField(`\`add\``, `Adds a role to a user \nUsage: **${config.prefix}add [@User] [Role]**`)
         .addField(`\`remove\``, `Removes a role from a user \nUsage: **${config.prefix}remove [@User] [Role]**`);
+      helpEmbed
+        .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
+      helpEmbed
+        .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
     }
     
     if (message.member.hasPermission('MANAGE_MESSAGES')) {
       helpEmbed
         .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`);
-      helpEmbed
-        .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
-      helpEmbed
-        .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
     }
 
     if (message.member.hasPermission('MUTE_MEMBERS')) {
@@ -34061,8 +34061,8 @@ class BotState {
 /* harmony default export */ const enable = (async (config, client, message, args) => {
   let response = null;
 
-  if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+  if (!message.member.hasPermission('MANAGE_ROLES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage Server`)");
     await response.delete({ timeout: 30000 });
     return;
   }
@@ -34077,8 +34077,8 @@ class BotState {
 /* harmony default export */ const disable = (async (config, client, message, args) => {
   let response = null;
 
-  if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+  if (!message.member.hasPermission('MANAGE_ROLES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage Server`)");
     await response.delete({ timeout: 30000 });
     return;
   }

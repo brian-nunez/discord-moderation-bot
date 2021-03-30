@@ -3,7 +3,8 @@
   "prefix": ">",
   "ownerID": "",
   "roles": {
-    "muted": "Muted"
+    "muted": "Muted",
+    "dev": "Developer"
   },
   "moderation_channel": "",
   "mcserver": {

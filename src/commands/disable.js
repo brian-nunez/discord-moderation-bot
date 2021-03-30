@@ -3,8 +3,8 @@ import BotState from '../utils/BotState';
 export default async (config, client, message, args) => {
   let response = null;
 
-  if (message.author.id !== config.ownerID) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Owner`)");
+  if (!message.member.hasPermission('MANAGE_ROLES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage Server`)");
     await response.delete({ timeout: 30000 });
     return;
   }
