@@ -7,13 +7,17 @@ export default (config, client, message) => {
     .setDescription(`**Prefix:** ${config.prefix}`)
     .addField(`\`ping\``, `Check your bot's ping`)
     .addField(`\`rps\``, `Play rock paper scissors`)
+    .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
+    .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
+    .addField(`\`joke\``, 'Displays a random joke')
     .setFooter('Created by Derthon#9538');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
     message.member.hasPermission('BAN_MEMBERS') ||
     message.member.hasPermission('MANAGE_ROLES') ||
-    message.member.hasPermission('MANAGE_MESSAGES')
+    message.member.hasPermission('MANAGE_MESSAGES') ||
+    message.member.hasPermission('MUTE_MEMBERS')
   ) {
     helpEmbed
       .addField('\b', 'Admin Commands');
@@ -34,6 +38,25 @@ export default (config, client, message) => {
     if (message.member.hasPermission('MANAGE_MESSAGES')) {
       helpEmbed
         .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`);
+      helpEmbed
+        .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
+      helpEmbed
+        .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
+    }
+
+    if (message.member.hasPermission('MUTE_MEMBERS')) {
+      helpEmbed
+        .addField(`\`mute\``, `Allows you to mute members ${config.prefix}mute`);
+      helpEmbed
+        .addField(`\`unmute\``, `Allows you to unmute members ${config.prefix}unmute`);
+      helpEmbed
+        .addField(`\`tempmute\``, `Allows you to temporarily mute members ${config.prefix}mute <member> [duration] (reason)`);
+      helpEmbed
+        .addField(`\`warn\``, `Allows you to warn members ${config.prefix}warn <member> <reason>`);
+      helpEmbed
+        .addField(`\`unwarn\``, `Allows you to unwarn members ${config.prefix}unwarn <member>`);
+      helpEmbed
+        .addField(`\`warnlist\``, `Lists all warned members and reasons ${config.prefix}warnlist <optional member>`);
     }
 
     if (message.author.id === config.ownerID) {

@@ -13,6 +13,12 @@ client.on('message', async message => {
   const config = getConfig({ fresh: true });
   if (message.author.bot) return;
   if (message.content.indexOf(config.prefix) !== 0) return;
+  const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);
+
+  if (message.member.roles.cache.has(roleMuted.id)) {
+    await message.delete();
+    return;
+  }
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
   const commandToRun = args.shift().toLowerCase();
@@ -29,6 +35,11 @@ client.on('message', async message => {
   const { [commandToRun]: command = unknownCommand } = commands;
 
   command(...commandParams);
+});
+
+process.on('SIGINT', function() {
+  client.destroy();
+  process.exit();
 });
 
 client.login(getConfig().token);

@@ -38,5 +38,5 @@ export default async (config, client, message, args) => {
 
 
   await member.roles.remove(roleRemove.id);
-  await message.channel.send(`${remove} removed to ${member.displayName}`);
+  await message.channel.send(`${remove} removed from ${member.displayName}`);
 }

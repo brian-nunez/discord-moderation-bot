@@ -30,7 +30,6 @@ export default async (config, client, message, args) => {
 
     await message.channel.send(helpEmbed);
   } catch (e) {
-    console.log(e.message);
     const response = await message.channel.send('IP Lookup Service is down!');
     await response.delete({ timeout: 30000 });
   }

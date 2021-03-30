@@ -2,6 +2,10 @@
   "token": "",
   "prefix": ">",
   "ownerID": "",
+  "roles": {
+    "muted": "Muted"
+  },
+  "moderation_channel": "",
   "mcserver": {
     "ip": ""
   }

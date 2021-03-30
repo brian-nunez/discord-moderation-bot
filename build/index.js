@@ -405,7 +405,7 @@ exports.default = Collection;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var CombinedStream = __nccwpck_require__(5443);
-var util = __nccwpck_require__(9357);
+var util = __nccwpck_require__(1669);
 var path = __nccwpck_require__(5622);
 var http = __nccwpck_require__(8605);
 var https = __nccwpck_require__(7211);
@@ -1501,7 +1501,7 @@ function descending(a, b)
 /***/ 5443:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var util = __nccwpck_require__(9357);
+var util = __nccwpck_require__(1669);
 var Stream = __nccwpck_require__(2413).Stream;
 var DelayedStream = __nccwpck_require__(8611);
 
@@ -1717,7 +1717,7 @@ CombinedStream.prototype._emitError = function(err) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var Stream = __nccwpck_require__(2413).Stream;
-var util = __nccwpck_require__(9357);
+var util = __nccwpck_require__(1669);
 
 module.exports = DelayedStream;
 function DelayedStream() {
@@ -1848,7 +1848,7 @@ if (browser) {
   TextDecoder = window.TextDecoder; // eslint-disable-line no-undef
   exports.WebSocket = window.WebSocket; // eslint-disable-line no-undef
 } else {
-  TextDecoder = __nccwpck_require__(9357).TextDecoder;
+  TextDecoder = __nccwpck_require__(1669).TextDecoder;
   exports.WebSocket = __nccwpck_require__(8867);
 }
 
@@ -13507,7 +13507,7 @@ module.exports = Emoji;
 "use strict";
 
 
-const { deprecate } = __nccwpck_require__(9357);
+const { deprecate } = __nccwpck_require__(1669);
 const Base = __nccwpck_require__(9307);
 const GuildAuditLogs = __nccwpck_require__(4778);
 const GuildPreview = __nccwpck_require__(1553);
@@ -33133,7 +33133,7 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ 1669:
+/***/ 3630:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -33153,6 +33153,7 @@ __nccwpck_require__.d(commands_namespaceObject, {
   "joke": () => joke,
   "kick": () => kick,
   "mcuuid": () => mcuuid,
+  "mute": () => mute,
   "ping": () => ping,
   "purge": () => purge,
   "remove": () => remove,
@@ -33163,7 +33164,12 @@ __nccwpck_require__.d(commands_namespaceObject, {
   "setgame": () => setgame,
   "setname": () => setname,
   "setstatus": () => setstatus,
-  "shutdown": () => shutdown
+  "shutdown": () => shutdown,
+  "tempmute": () => tempmute,
+  "unmute": () => unmute,
+  "unwarn": () => unwarn,
+  "warn": () => warn,
+  "warnlist": () => warnlist
 });
 
 // EXTERNAL MODULE: ./node_modules/discord.js/src/index.js
@@ -33289,13 +33295,17 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     .setDescription(`**Prefix:** ${config.prefix}`)
     .addField(`\`ping\``, `Check your bot's ping`)
     .addField(`\`rps\``, `Play rock paper scissors`)
+    .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
+    .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
+    .addField(`\`joke\``, 'Displays a random joke')
     .setFooter('Created by Derthon#9538');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
     message.member.hasPermission('BAN_MEMBERS') ||
     message.member.hasPermission('MANAGE_ROLES') ||
-    message.member.hasPermission('MANAGE_MESSAGES')
+    message.member.hasPermission('MANAGE_MESSAGES') ||
+    message.member.hasPermission('MUTE_MEMBERS')
   ) {
     helpEmbed
       .addField('\b', 'Admin Commands');
@@ -33316,6 +33326,25 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     if (message.member.hasPermission('MANAGE_MESSAGES')) {
       helpEmbed
         .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`);
+      helpEmbed
+        .addField(`\`enable\``, `Enables the bots commands ${config.prefix}enable`);
+      helpEmbed
+        .addField(`\`disable\``, `Disables the bots commands ${config.prefix}disable`);
+    }
+
+    if (message.member.hasPermission('MUTE_MEMBERS')) {
+      helpEmbed
+        .addField(`\`mute\``, `Allows you to mute members ${config.prefix}mute`);
+      helpEmbed
+        .addField(`\`unmute\``, `Allows you to unmute members ${config.prefix}unmute`);
+      helpEmbed
+        .addField(`\`tempmute\``, `Allows you to temporarily mute members ${config.prefix}mute <member> [duration] (reason)`);
+      helpEmbed
+        .addField(`\`warn\``, `Allows you to warn members ${config.prefix}warn <member> <reason>`);
+      helpEmbed
+        .addField(`\`unwarn\``, `Allows you to unwarn members ${config.prefix}unwarn <member>`);
+      helpEmbed
+        .addField(`\`warnlist\``, `Lists all warned members and reasons ${config.prefix}warnlist <optional member>`);
     }
 
     if (message.author.id === config.ownerID) {
@@ -33492,7 +33521,7 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 
 
   await member.roles.remove(roleRemove.id);
-  await message.channel.send(`${remove} removed to ${member.displayName}`);
+  await message.channel.send(`${remove} removed from ${member.displayName}`);
 });
 
 // CONCATENATED MODULE: ./src/commands/say.js
@@ -33591,7 +33620,24 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     return;
   }
 
-  client.user.setActivity(args.join(' '));
+  const statusMap = {
+    online: 'online',
+    idle: 'idle',
+    invisible: 'invisible',
+    offline: 'invisible',
+    dnd: 'dnd',
+    'do not disturb': 'dnd',
+  }
+
+  const status = statusMap[args[0]] || null;
+
+  if (!status) {
+    response = await message.channel.send(`Must be one of these [${Object.keys(statusMap).join(', ')}]`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  client.user.setStatus(status);
 });
 
 // CONCATENATED MODULE: ./src/commands/setgame.js
@@ -33962,7 +34008,6 @@ function getCountryCodeName(cc) {
 
     await message.channel.send(helpEmbed);
   } catch (e) {
-    console.log(e.message);
     const response = await message.channel.send('IP Lookup Service is down!');
     await response.delete({ timeout: 30000 });
   }
@@ -33973,7 +34018,26 @@ class BotState {
   constructor() {
     this.state = {
       disabled: false,
+      warn: [],
     };
+  }
+
+  add(type, data = {}) {
+    this.state[type].push({
+      time: new Date(),
+      ...data,
+    });
+  }
+
+  remove(type, memberID) {
+    const originalLength = this.state[type].length;
+    const copy = [...this.state[type]].filter(member => memberID !== member.memberID);
+    this.state[type] = copy;
+    return originalLength - copy.length;
+  }
+
+  getLogs(type) {
+    return this.state[type];
   }
 
   enable() {
@@ -34070,10 +34134,9 @@ class BotState {
     }
 
     const {
-      // icon,
       motd: {
         clean,
-      },
+      } = {},
       ip,
       port,
       software,
@@ -34089,26 +34152,323 @@ class BotState {
     const embed = new discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
-      .setDescription(`Server is running ${software} version ${version}`)
-      .addField('MOTD', clean)
       .addField('IP', ip)
       .addField('Is Online', online)
-      // .setImage(icon)
       .setFooter('Created by Derthon#9538');
 
     if (online) {
-      embed.addField('Players', `${onlinePlayers}/${maxPlayers}`);
+      embed
+        .setDescription(`Server is running ${software} version ${version}`)
+        .addField('MOTD', clean)
+        .addField('Players', `${onlinePlayers}/${maxPlayers}`);
     }
 
     await message.channel.send(embed);
   } catch (e) {
-    console.log(e.message);
     const response = await message.channel.send('An error occurred!');
     await response.delete({ timeout: 30000 });
   }
 });
 
+// CONCATENATED MODULE: ./src/commands/mute.js
+/* harmony default export */ const mute = (async (config, client, message, args) => {
+  let response = null;
+  if (!message.member.hasPermission('MUTE_MEMBERS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const member = message.mentions.members.first();
+
+  if (!member) {
+    response = await message.channel.send("You have not mentioned a user");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);
+
+  if (!roleMuted) {
+    response = await message.channel.send("This role does not exist");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  if (member.roles.cache.get(roleMuted.id)) {
+    response = await message.channel.send(`This user already has the ${roleMuted} role`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  await member.roles.add(roleMuted.id);
+  await message.channel.send(`${roleMuted} added to ${member.displayName}`);
+  try {
+    await member.voice.setMute(true);
+  } catch (e) {
+    // Do Nothing
+  }
+});
+// CONCATENATED MODULE: ./src/commands/unmute.js
+/* harmony default export */ const unmute = (async (config, client, message, args) => {
+  let response = null;
+  if (!message.member.hasPermission('MUTE_MEMBERS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const member = message.mentions.members.first();
+
+  if (!member) {
+    response = await message.channel.send("You have not mentioned a user");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);
+
+  if (!roleMuted) {
+    response = await message.channel.send("This role does not exist");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  if (!member.roles.cache.get(roleMuted.id)) {
+    response = await message.channel.send(`This user does not have the ${roleMuted} role`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  await member.roles.remove(roleMuted.id);
+  await message.channel.send(`${roleMuted} removed from ${member.displayName}`);
+  try {
+    await member.voice.setMute(false);
+  } catch (e) {
+    // Do Nothing
+  }
+});
+// CONCATENATED MODULE: ./src/commands/tempmute.js
+/* harmony default export */ const tempmute = (async (config, client, message, args) => {
+  let response = null;
+  if (!message.member.hasPermission('MUTE_MEMBERS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const member = message.mentions.members.first();
+
+  if (!member) {
+    response = await message.channel.send("You have not mentioned a user");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);
+
+  if (!roleMuted) {
+    response = await message.channel.send("This role does not exist");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  if (member.roles.cache.get(roleMuted.id)) {
+    response = await message.channel.send(`This user already has the ${roleMuted} role`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const [user, time, reason] = args;
+
+  if (!time || !reason) {
+    response = await message.channel.send(`TempMute Usage1: ${config.prefix}tempmute <Duration in minutes>m <Reason>`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  if (!/^\d+m$/.test(time.trim())) {
+    response = await message.channel.send(`TempMute Usage2: ${config.prefix}tempmute <Duration in minutes>m <Reason>`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const mins = Number(time.trim().replace('m', ''));
+
+  if (!mins) {
+    response = await message.channel.send(`TempMute Usage3: ${config.prefix}tempmute <Duration in minutes>m <Reason>`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  setTimeout(async () => {
+    await member.roles.remove(roleMuted.id);
+  }, mins * 60 * 1000);
+
+  await member.roles.add(roleMuted.id);
+  await message.channel.send(`${roleMuted} added to ${member.displayName}`);
+  try {
+    await member.voice.setMute(true);
+  } catch (e) {
+    // Do Nothing
+  }
+});
+// CONCATENATED MODULE: ./src/commands/warn.js
+
+
+
+/* harmony default export */ const warn = (async (config, client, message, args) => {
+  let response = null;
+  if (!message.member.hasPermission('MUTE_MEMBERS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const [_, ...reasonRaw] = args;
+  const reason = reasonRaw.join(' ').trim();
+  const member = message.mentions.members.first();
+
+  if (!member) {
+    response = await message.channel.send("You have not mentioned a user");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  if (!reason) {
+    response = await message.channel.send(`Warn Usage: ${config.prefix}warn <Member> <Reason>`);
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  utils_BotState.add('warn', {
+    memberID: member.id,
+    reason: reason,
+  });
+
+  const embed = new discord.MessageEmbed()
+    .setColor('GREEN')
+    .setTitle(`Warned ${member.user.username}`)
+    .setDescription(`Reason: ${reason}`)
+    .setFooter('Created by Derthon#9538');
+
+  const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
+  await modChannel.send(embed);
+  await message.channel.send(embed);
+});
+
+// CONCATENATED MODULE: ./src/commands/unwarn.js
+
+
+
+/* harmony default export */ const unwarn = (async (config, client, message, args) => {
+  let response = null;
+  if (!message.member.hasPermission('MUTE_MEMBERS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const member = message.mentions.members.first();
+
+  if (!member) {
+    response = await message.channel.send("Must provide a member to unwarn");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const amountRemoved = utils_BotState.remove('warn', member.id);
+
+  if (amountRemoved === 0) {
+    const embed = new discord.MessageEmbed()
+      .setColor('GREEN')
+      .setTitle(`${member.user.username} was not warned`)
+      .setFooter('Created by Derthon#9538');
+    
+    message.channel.send(embed);
+    return;
+  }
+
+  const extraChar = amountRemoved > 1 ? 's' : '';
+
+  const embed = new discord.MessageEmbed()
+    .setColor('GREEN')
+    .setTitle(`Removed ${amountRemoved} Warning Message${extraChar} for ${member.user.username}`)
+    .setFooter('Created by Derthon#9538');
+  
+  const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
+  await modChannel.send(embed);
+  await message.channel.send(embed);
+});
+// CONCATENATED MODULE: ./src/commands/warnlist.js
+
+
+
+/* harmony default export */ const warnlist = (async (config, client, message, args) => {
+  let response = null;
+  if (!message.member.hasPermission('MUTE_MEMBERS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const member = message.mentions.members.first();
+
+  if (member) {
+    const warnedMember = message.guild.members.cache.find(mem => mem.id === member.id);
+
+    const warnedMembers = utils_BotState.getLogs('warn').filter(warn => warn.memberID === member.id);
+
+    if (warnedMembers.length === 0) {
+      const embed = new discord.MessageEmbed()
+        .setColor('GREEN')
+        .setTitle(`Member is clean :eyes:`)
+        .setDescription(`This member has not been warned`)
+        .setFooter('Created by Derthon#9538');
+      await message.channel.send(embed);
+      return
+    }
+
+    const embed = new discord.MessageEmbed()
+      .setColor('GREEN')
+      .setTitle(`Warned Player ${warnedMember.user.username}`)
+      .setDescription(`List of all warnings for member`)
+      .setFooter('Created by Derthon#9538');
+
+    warnedMembers.forEach((warn, idx) => {
+      embed.addField(`Warn Number ${idx+1}.`, warn.reason);
+    });
+
+    await message.channel.send(embed);
+    return;
+  }
+
+  const embed = new discord.MessageEmbed()
+    .setColor('GREEN')
+    .setDescription(`List of all warned members`)
+    .setFooter('Created by Derthon#9538');
+
+  const warnedMembers = utils_BotState.getLogs('warn');
+  
+  embed.setTitle(`${client.user.username} Warns (${warnedMembers.length})`);
+  for (let warn of warnedMembers) {
+    try {
+      const warnedMember = message.guild.members.cache.find(mem => mem.id === warn.memberID);
+      embed.addField(`User: ${warnedMember.user.username}`, `Reason - ${warn.reason}`);
+    } catch (e) {
+      // Do Nothing
+    }
+  }
+
+  await message.channel.send(embed);
+});
 // CONCATENATED MODULE: ./src/commands/index.js
+
+
+
+
+
+
 
 
 
@@ -34148,6 +34508,12 @@ client.on('message', async message => {
   const config = getConfig({ fresh: true });
   if (message.author.bot) return;
   if (message.content.indexOf(config.prefix) !== 0) return;
+  const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);
+
+  if (message.member.roles.cache.has(roleMuted.id)) {
+    await message.delete();
+    return;
+  }
 
   const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
   const commandToRun = args.shift().toLowerCase();
@@ -34164,6 +34530,11 @@ client.on('message', async message => {
   const { [commandToRun]: command = unknownCommand } = commands_namespaceObject;
 
   command(...commandParams);
+});
+
+process.on('SIGINT', function() {
+  client.destroy();
+  process.exit();
 });
 
 client.login(getConfig().token);
@@ -34339,7 +34710,7 @@ module.exports = require("url");;
 
 /***/ }),
 
-/***/ 9357:
+/***/ 1669:
 /***/ ((module) => {
 
 "use strict";
@@ -34441,6 +34812,6 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(1669);
+/******/ 	return __nccwpck_require__(3630);
 /******/ })()
 ;

@@ -10,10 +10,9 @@ export default async (config, client, message, args) => {
     }
 
     const {
-      // icon,
       motd: {
         clean,
-      },
+      } = {},
       ip,
       port,
       software,
@@ -29,20 +28,19 @@ export default async (config, client, message, args) => {
     const embed = new Discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
-      .setDescription(`Server is running ${software} version ${version}`)
-      .addField('MOTD', clean)
       .addField('IP', ip)
       .addField('Is Online', online)
-      // .setImage(icon)
       .setFooter('Created by Derthon#9538');
 
     if (online) {
-      embed.addField('Players', `${onlinePlayers}/${maxPlayers}`);
+      embed
+        .setDescription(`Server is running ${software} version ${version}`)
+        .addField('MOTD', clean)
+        .addField('Players', `${onlinePlayers}/${maxPlayers}`);
     }
 
     await message.channel.send(embed);
   } catch (e) {
-    console.log(e.message);
     const response = await message.channel.send('An error occurred!');
     await response.delete({ timeout: 30000 });
   }

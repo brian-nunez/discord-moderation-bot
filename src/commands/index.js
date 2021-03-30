@@ -18,6 +18,12 @@ import enable from './enable';
 import disable from './disable';
 import mcuuid from './mcuuid';
 import serverdata from './serverdata';
+import mute from './mute';
+import unmute from './unmute';
+import tempmute from './tempmute';
+import warn from './warn';
+import unwarn from './unwarn';
+import warnlist from './warnlist';
 
 export {
   help,
@@ -40,4 +46,10 @@ export {
   disable,
   mcuuid,
   serverdata,
+  mute,
+  unmute,
+  tempmute,
+  warn,
+  warnlist,
+  unwarn,
 }
