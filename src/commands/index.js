@@ -16,6 +16,8 @@ import joke from './joke';
 import iplookup from './iplookup';
 import enable from './enable';
 import disable from './disable';
+import mcuuid from './mcuuid';
+import serverdata from './serverdata';
 
 export {
   help,
@@ -36,4 +38,6 @@ export {
   iplookup,
   enable,
   disable,
+  mcuuid,
+  serverdata,
 }

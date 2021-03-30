@@ -405,7 +405,7 @@ exports.default = Collection;
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var CombinedStream = __nccwpck_require__(5443);
-var util = __nccwpck_require__(1669);
+var util = __nccwpck_require__(9357);
 var path = __nccwpck_require__(5622);
 var http = __nccwpck_require__(8605);
 var https = __nccwpck_require__(7211);
@@ -1501,7 +1501,7 @@ function descending(a, b)
 /***/ 5443:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-var util = __nccwpck_require__(1669);
+var util = __nccwpck_require__(9357);
 var Stream = __nccwpck_require__(2413).Stream;
 var DelayedStream = __nccwpck_require__(8611);
 
@@ -1717,7 +1717,7 @@ CombinedStream.prototype._emitError = function(err) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 var Stream = __nccwpck_require__(2413).Stream;
-var util = __nccwpck_require__(1669);
+var util = __nccwpck_require__(9357);
 
 module.exports = DelayedStream;
 function DelayedStream() {
@@ -1848,7 +1848,7 @@ if (browser) {
   TextDecoder = window.TextDecoder; // eslint-disable-line no-undef
   exports.WebSocket = window.WebSocket; // eslint-disable-line no-undef
 } else {
-  TextDecoder = __nccwpck_require__(1669).TextDecoder;
+  TextDecoder = __nccwpck_require__(9357).TextDecoder;
   exports.WebSocket = __nccwpck_require__(8867);
 }
 
@@ -13507,7 +13507,7 @@ module.exports = Emoji;
 "use strict";
 
 
-const { deprecate } = __nccwpck_require__(1669);
+const { deprecate } = __nccwpck_require__(9357);
 const Base = __nccwpck_require__(9307);
 const GuildAuditLogs = __nccwpck_require__(4778);
 const GuildPreview = __nccwpck_require__(1553);
@@ -33133,7 +33133,7 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ 7818:
+/***/ 1669:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -33152,11 +33152,13 @@ __nccwpck_require__.d(commands_namespaceObject, {
   "iplookup": () => iplookup,
   "joke": () => joke,
   "kick": () => kick,
+  "mcuuid": () => mcuuid,
   "ping": () => ping,
   "purge": () => purge,
   "remove": () => remove,
   "rps": () => rps,
   "say": () => say,
+  "serverdata": () => serverdata,
   "setavatar": () => setavatar,
   "setgame": () => setgame,
   "setname": () => setname,
@@ -34021,7 +34023,94 @@ class BotState {
   await message.channel.send('Bot is now disabled!');
 });
 
+// CONCATENATED MODULE: ./src/commands/mcuuid.js
+
+
+
+/* harmony default export */ const mcuuid = (async (config, client, message, args) => {
+  try {
+    const username = args[0] || '';
+    if (!username) {
+      const response = await message.channel.send('Please provide a valid username');
+      await response.delete({ timeout: 30000 });
+      return;
+    }
+
+    const {
+      name,
+      id,
+    } = await lib_default()(`https://api.mojang.com/users/profiles/minecraft/${username.trim()}`)
+      .then(res => res.json());
+
+    const embed = new discord.MessageEmbed()
+      .setColor('GREEN')
+      .setTitle('UUID Service!')
+      .setDescription(`Data returned from Mojang`)
+      .addField('UUID', id)
+      .addField('Name', name)
+      .setFooter('Created by Derthon#9538');
+
+    await message.channel.send(embed);
+  } catch (e) {
+    const response = await message.channel.send('An error occurred!');
+    await response.delete({ timeout: 30000 });
+  }
+});
+
+// CONCATENATED MODULE: ./src/commands/serverdata.js
+
+
+
+/* harmony default export */ const serverdata = (async (config, client, message, args) => {
+  try {
+    if (!(config.mcserver && config.mcserver.ip)) {
+      const response = await message.channel.send('Not Minecraft server data provided in config');
+      await response.delete({ timeout: 30000 });
+      return;
+    }
+
+    const {
+      // icon,
+      motd: {
+        clean,
+      },
+      ip,
+      port,
+      software,
+      version,
+      online,
+      players: {
+        online: onlinePlayers,
+        max: maxPlayers,
+      } = {},
+    } = await lib_default()(`https://api.mcsrvstat.us/2/${config.mcserver.ip}`)
+      .then(res => res.json());
+
+    const embed = new discord.MessageEmbed()
+      .setColor('GREEN')
+      .setTitle(`Minecraft server ${config.mcserver.ip}`)
+      .setDescription(`Server is running ${software} version ${version}`)
+      .addField('MOTD', clean)
+      .addField('IP', ip)
+      .addField('Is Online', online)
+      // .setImage(icon)
+      .setFooter('Created by Derthon#9538');
+
+    if (online) {
+      embed.addField('Players', `${onlinePlayers}/${maxPlayers}`);
+    }
+
+    await message.channel.send(embed);
+  } catch (e) {
+    console.log(e.message);
+    const response = await message.channel.send('An error occurred!');
+    await response.delete({ timeout: 30000 });
+  }
+});
+
 // CONCATENATED MODULE: ./src/commands/index.js
+
+
 
 
 
@@ -34250,7 +34339,7 @@ module.exports = require("url");;
 
 /***/ }),
 
-/***/ 1669:
+/***/ 9357:
 /***/ ((module) => {
 
 "use strict";
@@ -34352,6 +34441,6 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(7818);
+/******/ 	return __nccwpck_require__(1669);
 /******/ })()
 ;
