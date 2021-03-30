@@ -10,7 +10,7 @@ client.on('ready', _ => {
 });
 
 client.on('message', async message => {
-  const config = getConfig({ fresh: true });
+  const config = getConfig();
   if (message.author.bot) return;
   if (message.content.indexOf(config.prefix) !== 0) return;
   const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);

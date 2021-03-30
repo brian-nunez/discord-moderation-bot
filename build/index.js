@@ -33279,11 +33279,26 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 // CONCATENATED MODULE: ./src/getConfig.js
 
 
-/* harmony default export */ const getConfig = (({ fresh } = {}) => {
-  if (fresh) {
-    return __nccwpck_require__(3991);
-  }
-  return (_notfoundconfig_default());
+/* harmony default export */ const getConfig = (() => {
+  const token = (_notfoundconfig_default()).token || process.env.TOKEN;
+  const prefix = (_notfoundconfig_default()).prefix || process.env.PREFIX;
+  const ownerID = (_notfoundconfig_default()).ownerID || process.env.OWNER_ID;
+  const moderation_channel = (_notfoundconfig_default()).moderation_channel || process.env.MOD_CHANNEL;
+  const mcserverIP = (_notfoundconfig_default()).mcserver.ip || process.env.MC_IP;
+
+  const computedConfig = {
+    ...(_notfoundconfig_default()),
+    token,
+    prefix,
+    ownerID,
+    moderation_channel,
+    mcserver: {
+      ...(_notfoundconfig_default()).mcserver,
+      ip: mcserverIP,
+    }
+  };
+
+  return computedConfig;
 });
 
 // CONCATENATED MODULE: ./src/utils/BotState.js
@@ -34648,7 +34663,7 @@ client.on('ready', _ => {
 });
 
 client.on('message', async message => {
-  const config = getConfig({ fresh: true });
+  const config = getConfig();
   if (message.author.bot) return;
   if (message.content.indexOf(config.prefix) !== 0) return;
   const roleMuted = message.guild.roles.cache.find(role => role.name === config.roles.muted);
