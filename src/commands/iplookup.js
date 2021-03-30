@@ -26,7 +26,7 @@ export default async (config, client, message, args) => {
       .addField('City', city || null)
       .addField('Region Name', region_name || null)
       .addField('Time Zone', time_zone || null)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
     await message.channel.send(helpEmbed);
   } catch (e) {

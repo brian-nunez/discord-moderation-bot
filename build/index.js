@@ -33298,7 +33298,7 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter('Created by Derthon#9538');
+    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
@@ -33711,7 +33711,7 @@ var lib_default = /*#__PURE__*/__nccwpck_require__.n(lib);
       .setColor('GREEN')
       .setTitle(`${response.setup}`)
       .setDescription(`> ${response.punchline}`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -34004,7 +34004,7 @@ function getCountryCodeName(cc) {
       .addField('City', city || null)
       .addField('Region Name', region_name || null)
       .addField('Time Zone', time_zone || null)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -34112,7 +34112,7 @@ class BotState {
       .setDescription(`Data returned from Mojang`)
       .addField('UUID', id)
       .addField('Name', name)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
     await message.channel.send(embed);
   } catch (e) {
@@ -34154,7 +34154,7 @@ class BotState {
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
       .addField('IP', ip)
       .addField('Is Online', online)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
     if (online) {
       embed
@@ -34350,7 +34350,7 @@ class BotState {
     .setColor('GREEN')
     .setTitle(`Warned ${member.user.username}`)
     .setDescription(`Reason: ${reason}`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -34383,7 +34383,7 @@ class BotState {
     const embed = new discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`${member.user.username} was not warned`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
     
     message.channel.send(embed);
     return;
@@ -34394,7 +34394,7 @@ class BotState {
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setTitle(`Removed ${amountRemoved} Warning Message${extraChar} for ${member.user.username}`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
   
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -34424,7 +34424,7 @@ class BotState {
         .setColor('GREEN')
         .setTitle(`Member is clean :eyes:`)
         .setDescription(`This member has not been warned`)
-        .setFooter('Created by Derthon#9538');
+        .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
       await message.channel.send(embed);
       return
     }
@@ -34433,7 +34433,7 @@ class BotState {
       .setColor('GREEN')
       .setTitle(`Warned Player ${warnedMember.user.username}`)
       .setDescription(`List of all warnings for member`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
     warnedMembers.forEach((warn, idx) => {
       embed.addField(`Warn Number ${idx+1}.`, warn.reason);
@@ -34446,7 +34446,7 @@ class BotState {
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setDescription(`List of all warned members`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
   const warnedMembers = utils_BotState.getLogs('warn');
   

@@ -10,7 +10,7 @@ export default (config, client, message) => {
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter('Created by Derthon#9538');
+    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
