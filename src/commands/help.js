@@ -11,7 +11,7 @@ export default async (config, client, message) => {
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
 
   await message.channel.send(helpEmbed);
 
@@ -19,7 +19,7 @@ export default async (config, client, message) => {
     .setColor('GREEN')
     .setTitle(`${client.user.username} commands`)
     .setDescription(`Staff Commands`)
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
@@ -72,7 +72,7 @@ export default async (config, client, message) => {
       .setColor('GREEN')
       .setTitle(`${client.user.username} commands`)
       .setDescription(`Owner Commands`)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     if (message.author.id === config.ownerID || BotState.getAllowDevelopers()) {
       if (message.author.id === config.ownerID) {

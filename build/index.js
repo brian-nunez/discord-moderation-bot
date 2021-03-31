@@ -33366,7 +33366,7 @@ class BotState {
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
 
   await message.channel.send(helpEmbed);
 
@@ -33374,7 +33374,7 @@ class BotState {
     .setColor('GREEN')
     .setTitle(`${client.user.username} commands`)
     .setDescription(`Staff Commands`)
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
@@ -33427,7 +33427,7 @@ class BotState {
       .setColor('GREEN')
       .setTitle(`${client.user.username} commands`)
       .setDescription(`Owner Commands`)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     if (message.author.id === config.ownerID || utils_BotState.getAllowDevelopers()) {
       if (message.author.id === config.ownerID) {
@@ -33874,7 +33874,7 @@ var lib_default = /*#__PURE__*/__nccwpck_require__.n(lib);
       .setColor('GREEN')
       .setTitle(`${response.setup}`)
       .setDescription(`> ${response.punchline}`)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -34167,7 +34167,7 @@ function getCountryCodeName(cc) {
       .addField('City', city || null)
       .addField('Region Name', region_name || null)
       .addField('Time Zone', time_zone || null)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -34233,7 +34233,7 @@ function getCountryCodeName(cc) {
       .setDescription(`Data returned from Mojang`)
       .addField('UUID', id)
       .addField('Name', name)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     await message.channel.send(embed);
   } catch (e) {
@@ -34275,7 +34275,7 @@ function getCountryCodeName(cc) {
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
       .addField('IP', ip)
       .addField('Is Online', online)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     if (online) {
       embed
@@ -34471,7 +34471,7 @@ function getCountryCodeName(cc) {
     .setColor('GREEN')
     .setTitle(`Warned ${member.user.username}`)
     .setDescription(`Reason: ${reason}`)
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
 
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -34504,7 +34504,7 @@ function getCountryCodeName(cc) {
     const embed = new discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`${member.user.username} was not warned`)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
     
     message.channel.send(embed);
     return;
@@ -34515,7 +34515,7 @@ function getCountryCodeName(cc) {
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setTitle(`Removed ${amountRemoved} Warning Message${extraChar} for ${member.user.username}`)
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
   
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -34545,7 +34545,7 @@ function getCountryCodeName(cc) {
         .setColor('GREEN')
         .setTitle(`Member is clean :eyes:`)
         .setDescription(`This member has not been warned`)
-        .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+        .setFooter('Created by Derthon#9538');
       await message.channel.send(embed);
       return
     }
@@ -34554,7 +34554,7 @@ function getCountryCodeName(cc) {
       .setColor('GREEN')
       .setTitle(`Warned Player ${warnedMember.user.username}`)
       .setDescription(`List of all warnings for member`)
-      .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+      .setFooter('Created by Derthon#9538');
 
     warnedMembers.forEach((warn, idx) => {
       embed.addField(`Warn Number ${idx+1}.`, warn.reason);
@@ -34567,7 +34567,7 @@ function getCountryCodeName(cc) {
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setDescription(`List of all warned members`)
-    .setFooter('Created by Derthon#9538 : Owned by Ultra2021#0001');
+    .setFooter('Created by Derthon#9538');
 
   const warnedMembers = utils_BotState.getLogs('warn');
   
