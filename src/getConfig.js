@@ -6,6 +6,7 @@ export default () => {
   const ownerID = process.env.OWNER_ID || config.ownerID;
   const moderation_channel = process.env.MOD_CHANNEL || config.moderation_channel;
   const mcserverIP = process.env.MC_IP || config.mcserver.ip;
+  const footerMessage = process.env.FOOTER_MESSAGE || config.footerMessage;
 
   const computedConfig = {
     ...config,
@@ -16,7 +17,8 @@ export default () => {
     mcserver: {
       ...config.mcserver,
       ip: mcserverIP,
-    }
+    },
+    footerMessage,
   };
 
   return computedConfig;
