@@ -33133,7 +33133,7 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ 6075:
+/***/ 5240:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -33165,6 +33165,7 @@ __nccwpck_require__.d(commands_namespaceObject, {
   "setgame": () => setgame,
   "setname": () => setname,
   "setstatus": () => setstatus,
+  "shorten": () => shorten,
   "shutdown": () => shutdown,
   "tempmute": () => tempmute,
   "unmute": () => unmute,
@@ -33280,11 +33281,11 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
 
 
 /* harmony default export */ const getConfig = (() => {
-  const token = (_notfoundconfig_default()).token || process.env.TOKEN;
-  const prefix = (_notfoundconfig_default()).prefix || process.env.PREFIX;
-  const ownerID = (_notfoundconfig_default()).ownerID || process.env.OWNER_ID;
-  const moderation_channel = (_notfoundconfig_default()).moderation_channel || process.env.MOD_CHANNEL;
-  const mcserverIP = (_notfoundconfig_default()).mcserver.ip || process.env.MC_IP;
+  const token = process.env.TOKEN || (_notfoundconfig_default()).token;
+  const prefix = process.env.PREFIX || (_notfoundconfig_default()).prefix;
+  const ownerID = process.env.OWNER_ID || (_notfoundconfig_default()).ownerID;
+  const moderation_channel = process.env.MOD_CHANNEL || (_notfoundconfig_default()).moderation_channel;
+  const mcserverIP = process.env.MC_IP || (_notfoundconfig_default()).mcserver.ip;
 
   const computedConfig = {
     ...(_notfoundconfig_default()),
@@ -33366,7 +33367,7 @@ class BotState {
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter('Created by Derthon#9538');
+    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   await message.channel.send(helpEmbed);
 
@@ -33374,7 +33375,7 @@ class BotState {
     .setColor('GREEN')
     .setTitle(`${client.user.username} commands`)
     .setDescription(`Staff Commands`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
@@ -33427,7 +33428,7 @@ class BotState {
       .setColor('GREEN')
       .setTitle(`${client.user.username} commands`)
       .setDescription(`Owner Commands`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     if (message.author.id === config.ownerID || utils_BotState.getAllowDevelopers()) {
       if (message.author.id === config.ownerID) {
@@ -33874,7 +33875,7 @@ var lib_default = /*#__PURE__*/__nccwpck_require__.n(lib);
       .setColor('GREEN')
       .setTitle(`${response.setup}`)
       .setDescription(`> ${response.punchline}`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -34167,7 +34168,7 @@ function getCountryCodeName(cc) {
       .addField('City', city || null)
       .addField('Region Name', region_name || null)
       .addField('Time Zone', time_zone || null)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -34233,7 +34234,7 @@ function getCountryCodeName(cc) {
       .setDescription(`Data returned from Mojang`)
       .addField('UUID', id)
       .addField('Name', name)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(embed);
   } catch (e) {
@@ -34275,7 +34276,7 @@ function getCountryCodeName(cc) {
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
       .addField('IP', ip)
       .addField('Is Online', online)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     if (online) {
       embed
@@ -34471,7 +34472,7 @@ function getCountryCodeName(cc) {
     .setColor('GREEN')
     .setTitle(`Warned ${member.user.username}`)
     .setDescription(`Reason: ${reason}`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -34504,7 +34505,7 @@ function getCountryCodeName(cc) {
     const embed = new discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`${member.user.username} was not warned`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
     
     message.channel.send(embed);
     return;
@@ -34515,7 +34516,7 @@ function getCountryCodeName(cc) {
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setTitle(`Removed ${amountRemoved} Warning Message${extraChar} for ${member.user.username}`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
   
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -34545,7 +34546,7 @@ function getCountryCodeName(cc) {
         .setColor('GREEN')
         .setTitle(`Member is clean :eyes:`)
         .setDescription(`This member has not been warned`)
-        .setFooter('Created by Derthon#9538');
+        .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
       await message.channel.send(embed);
       return
     }
@@ -34554,7 +34555,7 @@ function getCountryCodeName(cc) {
       .setColor('GREEN')
       .setTitle(`Warned Player ${warnedMember.user.username}`)
       .setDescription(`List of all warnings for member`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     warnedMembers.forEach((warn, idx) => {
       embed.addField(`Warn Number ${idx+1}.`, warn.reason);
@@ -34567,7 +34568,7 @@ function getCountryCodeName(cc) {
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setDescription(`List of all warned members`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   const warnedMembers = utils_BotState.getLogs('warn');
   
@@ -34619,7 +34620,37 @@ function getCountryCodeName(cc) {
     return;
   }
 });
+// CONCATENATED MODULE: ./src/commands/shorten.js
+
+
+
+/* harmony default export */ const shorten = (async (config, client, message, args) => {
+  try {
+    const { url } = await lib_default()('https://api.zws.im/', {
+      method: 'POST',
+      body: JSON.stringify({
+        url: args.join(' '),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(res => res.json());
+
+    const embed = new discord.MessageEmbed()
+      .setColor('GREEN')
+      .setTitle(`Shortened URL`)
+      .addField(`URL`, url || 'UNKNOWN')
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+
+    await message.channel.send(embed);
+  } catch (e) {
+    const response = await message.channel.send('An error occurred!');
+    await response.delete({ timeout: 30000 });
+  }
+});
+
 // CONCATENATED MODULE: ./src/commands/index.js
+
 
 
 
@@ -34970,6 +35001,6 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(6075);
+/******/ 	return __nccwpck_require__(5240);
 /******/ })()
 ;

@@ -25,6 +25,7 @@ import warn from './warn';
 import unwarn from './unwarn';
 import warnlist from './warnlist';
 import dev from './dev';
+import shorten from './shorten';
 
 export {
   help,
@@ -54,4 +55,5 @@ export {
   warnlist,
   unwarn,
   dev,
+  shorten,
 }

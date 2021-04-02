@@ -21,7 +21,7 @@ export default async (config, client, message, args) => {
         .setColor('GREEN')
         .setTitle(`Member is clean :eyes:`)
         .setDescription(`This member has not been warned`)
-        .setFooter('Created by Derthon#9538');
+        .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
       await message.channel.send(embed);
       return
     }
@@ -30,7 +30,7 @@ export default async (config, client, message, args) => {
       .setColor('GREEN')
       .setTitle(`Warned Player ${warnedMember.user.username}`)
       .setDescription(`List of all warnings for member`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     warnedMembers.forEach((warn, idx) => {
       embed.addField(`Warn Number ${idx+1}.`, warn.reason);
@@ -43,7 +43,7 @@ export default async (config, client, message, args) => {
   const embed = new Discord.MessageEmbed()
     .setColor('GREEN')
     .setDescription(`List of all warned members`)
-    .setFooter('Created by Derthon#9538');
+    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   const warnedMembers = BotState.getLogs('warn');
   

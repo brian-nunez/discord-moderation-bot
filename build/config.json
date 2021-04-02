@@ -9,5 +9,6 @@
   "moderation_channel": "",
   "mcserver": {
     "ip": ""
-  }
+  },
+  "footerMessage": ""
 }

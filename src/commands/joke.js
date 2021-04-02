@@ -10,7 +10,7 @@ export default async (config, client, message, args) => {
       .setColor('GREEN')
       .setTitle(`${response.setup}`)
       .setDescription(`> ${response.punchline}`)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(helpEmbed);
   } catch (e) {

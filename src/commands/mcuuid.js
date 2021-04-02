@@ -22,7 +22,7 @@ export default async (config, client, message, args) => {
       .setDescription(`Data returned from Mojang`)
       .addField('UUID', id)
       .addField('Name', name)
-      .setFooter('Created by Derthon#9538');
+      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(embed);
   } catch (e) {

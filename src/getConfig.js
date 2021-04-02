@@ -1,11 +1,11 @@
 import config from './config.json';
 
 export default () => {
-  const token = config.token || process.env.TOKEN;
-  const prefix = config.prefix || process.env.PREFIX;
-  const ownerID = config.ownerID || process.env.OWNER_ID;
-  const moderation_channel = config.moderation_channel || process.env.MOD_CHANNEL;
-  const mcserverIP = config.mcserver.ip || process.env.MC_IP;
+  const token = process.env.TOKEN || config.token;
+  const prefix = process.env.PREFIX || config.prefix;
+  const ownerID = process.env.OWNER_ID || config.ownerID;
+  const moderation_channel = process.env.MOD_CHANNEL || config.moderation_channel;
+  const mcserverIP = process.env.MC_IP || config.mcserver.ip;
 
   const computedConfig = {
     ...config,
