@@ -1,6 +1,5 @@
 import Discord from 'discord.js';
 import fetch from 'node-fetch';
-import getCountryCodeName from '../utils/getCountryCodeName';
 
 export default async (config, client, message, args) => {
   try {

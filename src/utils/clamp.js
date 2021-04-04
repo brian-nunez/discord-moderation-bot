@@ -1,0 +1,1 @@
+export default (num, min, max) => Math.min(max, Math.max(min, num));

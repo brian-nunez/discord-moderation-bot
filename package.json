@@ -4,7 +4,10 @@
   "description": "Moderation bot",
   "main": "src/index.js",
   "scripts": {
-    "build": "ncc build src/index.js -o build/",
+    "clean": "rm -rf build",
+    "prebuild": "npm run clean",
+    "build": "babel src -d build",
+    "prestart": "npm run build",
     "start": "node ./build/index.js"
   },
   "repository": {
@@ -23,10 +26,15 @@
   },
   "homepage": "https://github.com/brian-nunez/darklandmc-mod-bot#readme",
   "devDependencies": {
-    "@vercel/ncc": "^0.27.0"
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/polyfill": "^7.12.1",
+    "@vercel/ncc": "^0.27.0",
+    "babel-preset-nunez": "^1.0.0"
   },
   "dependencies": {
     "discord.js": "^12.5.1",
+    "discord.js-commando": "^0.12.3",
     "node-fetch": "^2.6.1"
   }
 }

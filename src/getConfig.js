@@ -1,4 +1,19 @@
-import config from './config.json';
+// import config from './config.json';
+
+const config = {
+  "token": "",
+  "prefix": "!",
+  "ownerID": "",
+  "roles": {
+    "muted": "Muted",
+    "dev": "Developer"
+  },
+  "moderation_channel": "",
+  "mcserver": {
+    "ip": ""
+  },
+  "footerMessage": ""
+};
 
 export default () => {
   const token = process.env.TOKEN || config.token;
