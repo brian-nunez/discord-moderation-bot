@@ -17,7 +17,7 @@ export default class PurgeCommand extends Commando.Command {
           key: 'amount',
           prompt: 'Amount of messages to purge (1-100)',
           type: 'integer',
-          validate: num => clamp(num, 1, 100),
+          validate: num => !!(num && clamp(num, 1, 100)),
         },
       ],
     });
