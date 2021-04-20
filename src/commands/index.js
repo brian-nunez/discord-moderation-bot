@@ -26,6 +26,9 @@ import unwarn from './unwarn';
 import warnlist from './warnlist';
 import dev from './dev';
 import shorten from './shorten';
+import slowmode from './slowmode';
+import lock from './lock';
+import unlock from './unlock';
 
 export {
   help,
@@ -56,4 +59,7 @@ export {
   unwarn,
   dev,
   shorten,
+  slowmode,
+  lock,
+  unlock,
 }

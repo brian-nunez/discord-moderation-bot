@@ -1,7 +1,7 @@
 export default async (config, client, message, args) => {
   let response = null;
-  if (!message.member.hasPermission('BAN_MEMBERS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Ban members`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }

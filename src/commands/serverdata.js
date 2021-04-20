@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 export default async (config, client, message, args) => {
   try {
     if (!(config.mcserver && config.mcserver.ip)) {
-      const response = await message.channel.send('Not Minecraft server data provided in config');
+      const response = await message.channel.send('No Minecraft server data provided in config');
       await response.delete({ timeout: 30000 });
       return;
     }

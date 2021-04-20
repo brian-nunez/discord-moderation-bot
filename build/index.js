@@ -33133,7 +33133,7 @@ function socketOnError() {
 
 /***/ }),
 
-/***/ 5240:
+/***/ 32:
 /***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
 
 "use strict";
@@ -33153,6 +33153,7 @@ __nccwpck_require__.d(commands_namespaceObject, {
   "iplookup": () => iplookup,
   "joke": () => joke,
   "kick": () => kick,
+  "lock": () => lock,
   "mcuuid": () => mcuuid,
   "mute": () => mute,
   "ping": () => ping,
@@ -33167,7 +33168,9 @@ __nccwpck_require__.d(commands_namespaceObject, {
   "setstatus": () => setstatus,
   "shorten": () => shorten,
   "shutdown": () => shutdown,
+  "slowmode": () => slowmode,
   "tempmute": () => tempmute,
+  "unlock": () => unlock,
   "unmute": () => unmute,
   "unwarn": () => unwarn,
   "warn": () => warn,
@@ -33286,6 +33289,7 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
   const ownerID = process.env.OWNER_ID || (_notfoundconfig_default()).ownerID;
   const moderation_channel = process.env.MOD_CHANNEL || (_notfoundconfig_default()).moderation_channel;
   const mcserverIP = process.env.MC_IP || (_notfoundconfig_default()).mcserver.ip;
+  const footerMessage = process.env.FOOTER_MESSAGE || (_notfoundconfig_default()).footerMessage;
 
   const computedConfig = {
     ...(_notfoundconfig_default()),
@@ -33296,7 +33300,8 @@ var _notfoundconfig_default = /*#__PURE__*/__nccwpck_require__.n(_notfoundconfig
     mcserver: {
       ...(_notfoundconfig_default()).mcserver,
       ip: mcserverIP,
-    }
+    },
+    footerMessage,
   };
 
   return computedConfig;
@@ -34649,7 +34654,69 @@ function getCountryCodeName(cc) {
   }
 });
 
+// CONCATENATED MODULE: ./src/commands/slowmode.js
+/* harmony default export */ const slowmode = (async (config, client, message, args) => {
+  let response = null;
+
+  if (!message.member.hasPermission('MANAGE_CHANNELS')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage Channels`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const [time] = args;
+
+  message.channel.setRateLimitPerUser(time , "reason");
+});
+
+// CONCATENATED MODULE: ./src/commands/lock.js
+/* harmony default export */ const lock = (async (config, client, message, args) => {
+  let response = null;
+
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const role = message.guild.roles.cache.find(r => r.name === config.roles.member);
+
+  if (!role) {
+    response = await message.channel.send("Member role not set. Add role name to roles.member in the configuration file.");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  await message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
+  await message.channel.send(':lock: Locked');
+});
+
+// CONCATENATED MODULE: ./src/commands/unlock.js
+/* harmony default export */ const unlock = (async (config, client, message, args) => {
+  let response = null;
+
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  const role = message.guild.roles.cache.find(r => r.name === config.roles.member);
+
+  if (!role) {
+    response = await message.channel.send("Member role not set. Add role name to roles.member in the configuration file.");
+    await response.delete({ timeout: 30000 });
+    return;
+  }
+
+  await message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
+  await message.channel.send(':unlock: Unlocked');
+});
+
 // CONCATENATED MODULE: ./src/commands/index.js
+
+
+
 
 
 
@@ -34791,7 +34858,7 @@ module.exports = eval("require")("zlib-sync");
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse("{\"_from\":\"discord.js@^12.5.1\",\"_id\":\"discord.js@12.5.1\",\"_inBundle\":false,\"_integrity\":\"sha512-VwZkVaUAIOB9mKdca0I5MefPMTQJTNg0qdgi1huF3iwsFwJ0L5s/Y69AQe+iPmjuV6j9rtKoG0Ta0n9vgEIL6w==\",\"_location\":\"/discord.js\",\"_phantomChildren\":{},\"_requested\":{\"type\":\"range\",\"registry\":true,\"raw\":\"discord.js@^12.5.1\",\"name\":\"discord.js\",\"escapedName\":\"discord.js\",\"rawSpec\":\"^12.5.1\",\"saveSpec\":null,\"fetchSpec\":\"^12.5.1\"},\"_requiredBy\":[\"/\"],\"_resolved\":\"https://registry.npmjs.org/discord.js/-/discord.js-12.5.1.tgz\",\"_shasum\":\"992b45753e3815526a279914ccc281d3496f5990\",\"_spec\":\"discord.js@^12.5.1\",\"_where\":\"/Users/brian/workspace/discord-stuff/moderation-bot\",\"author\":{\"name\":\"Amish Shah\",\"email\":\"amishshah.2k@gmail.com\"},\"browser\":{\"@discordjs/opus\":false,\"https\":false,\"ws\":false,\"erlpack\":false,\"prism-media\":false,\"opusscript\":false,\"node-opus\":false,\"tweetnacl\":false,\"sodium\":false,\"worker_threads\":false,\"zlib-sync\":false,\"src/sharding/Shard.js\":false,\"src/sharding/ShardClientUtil.js\":false,\"src/sharding/ShardingManager.js\":false,\"src/client/voice/ClientVoiceManager.js\":false,\"src/client/voice/VoiceBroadcast.js\":false,\"src/client/voice/VoiceConnection.js\":false,\"src/client/voice/dispatcher/BroadcastDispatcher.js\":false,\"src/client/voice/dispatcher/StreamDispatcher.js\":false,\"src/client/voice/networking/VoiceUDPClient.js\":false,\"src/client/voice/networking/VoiceWebSocket.js\":false,\"src/client/voice/player/AudioPlayer.js\":false,\"src/client/voice/player/BasePlayer.js\":false,\"src/client/voice/player/BroadcastAudioPlayer.js\":false,\"src/client/voice/receiver/PacketHandler.js\":false,\"src/client/voice/receiver/Receiver.js\":false,\"src/client/voice/util/PlayInterface.js\":false,\"src/client/voice/util/Secretbox.js\":false,\"src/client/voice/util/Silence.js\":false,\"src/client/voice/util/VolumeInterface.js\":false},\"bugs\":{\"url\":\"https://github.com/discordjs/discord.js/issues\"},\"bundleDependencies\":false,\"commitlint\":{\"extends\":[\"@commitlint/config-angular\"],\"rules\":{\"scope-case\":[2,\"always\",\"pascal-case\"],\"type-enum\":[2,\"always\",[\"chore\",\"build\",\"ci\",\"docs\",\"feat\",\"fix\",\"perf\",\"refactor\",\"revert\",\"style\",\"test\"]]}},\"dependencies\":{\"@discordjs/collection\":\"^0.1.6\",\"@discordjs/form-data\":\"^3.0.1\",\"abort-controller\":\"^3.0.0\",\"node-fetch\":\"^2.6.1\",\"prism-media\":\"^1.2.2\",\"setimmediate\":\"^1.0.5\",\"tweetnacl\":\"^1.0.3\",\"ws\":\"^7.3.1\"},\"deprecated\":false,\"description\":\"A powerful library for interacting with the Discord API\",\"devDependencies\":{\"@commitlint/cli\":\"^11.0.0\",\"@commitlint/config-angular\":\"^11.0.0\",\"@types/node\":\"^12.12.6\",\"@types/ws\":\"^7.2.7\",\"cross-env\":\"^7.0.2\",\"discord.js-docgen\":\"git+https://github.com/discordjs/docgen.git\",\"dtslint\":\"^4.0.4\",\"eslint\":\"^7.11.0\",\"eslint-config-prettier\":\"^6.13.0\",\"eslint-plugin-import\":\"^2.22.1\",\"eslint-plugin-prettier\":\"^3.1.4\",\"husky\":\"^4.3.0\",\"jest\":\"^26.6.0\",\"json-filter-loader\":\"^1.0.0\",\"lint-staged\":\"^10.4.2\",\"prettier\":\"^2.1.2\",\"terser-webpack-plugin\":\"^4.2.3\",\"tslint\":\"^6.1.3\",\"typescript\":\"^4.0.3\",\"webpack\":\"^4.44.2\",\"webpack-cli\":\"^3.3.12\"},\"engines\":{\"node\":\">=12.0.0\"},\"exports\":{\".\":[{\"require\":\"./src/index.js\",\"import\":\"./esm/discord.mjs\"},\"./src/index.js\"],\"./esm\":\"./esm/discord.mjs\"},\"homepage\":\"https://github.com/discordjs/discord.js#readme\",\"husky\":{\"hooks\":{\"pre-commit\":\"lint-staged\",\"commit-msg\":\"commitlint -E HUSKY_GIT_PARAMS\"}},\"keywords\":[\"discord\",\"api\",\"bot\",\"client\",\"node\",\"discordapp\"],\"license\":\"Apache-2.0\",\"lint-staged\":{\"*.js\":\"eslint --fix\",\"*.ts\":\"prettier --write\"},\"main\":\"./src/index\",\"name\":\"discord.js\",\"prettier\":{\"singleQuote\":true,\"printWidth\":120,\"trailingComma\":\"all\",\"endOfLine\":\"lf\",\"arrowParens\":\"avoid\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/discordjs/discord.js.git\"},\"runkitExampleFilename\":\"./docs/examples/ping.js\",\"scripts\":{\"build:browser\":\"webpack\",\"docs\":\"docgen --source src --custom docs/index.yml --output docs/docs.json\",\"docs:test\":\"docgen --source src --custom docs/index.yml\",\"lint\":\"eslint src\",\"lint:fix\":\"eslint src --fix\",\"lint:typings\":\"tslint typings/index.d.ts\",\"prepublishOnly\":\"npm run test && cross-env NODE_ENV=production npm run build:browser\",\"prettier\":\"prettier --write src/**/*.js typings/**/*.ts\",\"test\":\"npm run lint && npm run docs:test && npm run lint:typings\",\"test:typescript\":\"tsc\"},\"types\":\"./typings/index.d.ts\",\"unpkg\":\"./webpack/discord.min.js\",\"version\":\"12.5.1\"}");
+module.exports = JSON.parse("{\"name\":\"discord.js\",\"version\":\"12.5.1\",\"description\":\"A powerful library for interacting with the Discord API\",\"main\":\"./src/index\",\"types\":\"./typings/index.d.ts\",\"exports\":{\".\":[{\"require\":\"./src/index.js\",\"import\":\"./esm/discord.mjs\"},\"./src/index.js\"],\"./esm\":\"./esm/discord.mjs\"},\"scripts\":{\"test\":\"npm run lint && npm run docs:test && npm run lint:typings\",\"test:typescript\":\"tsc\",\"docs\":\"docgen --source src --custom docs/index.yml --output docs/docs.json\",\"docs:test\":\"docgen --source src --custom docs/index.yml\",\"lint\":\"eslint src\",\"lint:fix\":\"eslint src --fix\",\"lint:typings\":\"tslint typings/index.d.ts\",\"prettier\":\"prettier --write src/**/*.js typings/**/*.ts\",\"build:browser\":\"webpack\",\"prepublishOnly\":\"npm run test && cross-env NODE_ENV=production npm run build:browser\"},\"repository\":{\"type\":\"git\",\"url\":\"git+https://github.com/discordjs/discord.js.git\"},\"keywords\":[\"discord\",\"api\",\"bot\",\"client\",\"node\",\"discordapp\"],\"author\":\"Amish Shah <amishshah.2k@gmail.com>\",\"license\":\"Apache-2.0\",\"bugs\":{\"url\":\"https://github.com/discordjs/discord.js/issues\"},\"homepage\":\"https://github.com/discordjs/discord.js#readme\",\"runkitExampleFilename\":\"./docs/examples/ping.js\",\"unpkg\":\"./webpack/discord.min.js\",\"dependencies\":{\"@discordjs/collection\":\"^0.1.6\",\"@discordjs/form-data\":\"^3.0.1\",\"abort-controller\":\"^3.0.0\",\"node-fetch\":\"^2.6.1\",\"prism-media\":\"^1.2.2\",\"setimmediate\":\"^1.0.5\",\"tweetnacl\":\"^1.0.3\",\"ws\":\"^7.3.1\"},\"devDependencies\":{\"@commitlint/cli\":\"^11.0.0\",\"@commitlint/config-angular\":\"^11.0.0\",\"@types/node\":\"^12.12.6\",\"@types/ws\":\"^7.2.7\",\"cross-env\":\"^7.0.2\",\"discord.js-docgen\":\"git+https://github.com/discordjs/docgen.git\",\"dtslint\":\"^4.0.4\",\"eslint\":\"^7.11.0\",\"eslint-config-prettier\":\"^6.13.0\",\"eslint-plugin-import\":\"^2.22.1\",\"eslint-plugin-prettier\":\"^3.1.4\",\"husky\":\"^4.3.0\",\"jest\":\"^26.6.0\",\"json-filter-loader\":\"^1.0.0\",\"lint-staged\":\"^10.4.2\",\"prettier\":\"^2.1.2\",\"terser-webpack-plugin\":\"^4.2.3\",\"tslint\":\"^6.1.3\",\"typescript\":\"^4.0.3\",\"webpack\":\"^4.44.2\",\"webpack-cli\":\"^3.3.12\"},\"engines\":{\"node\":\">=12.0.0\"},\"browser\":{\"@discordjs/opus\":false,\"https\":false,\"ws\":false,\"erlpack\":false,\"prism-media\":false,\"opusscript\":false,\"node-opus\":false,\"tweetnacl\":false,\"sodium\":false,\"worker_threads\":false,\"zlib-sync\":false,\"src/sharding/Shard.js\":false,\"src/sharding/ShardClientUtil.js\":false,\"src/sharding/ShardingManager.js\":false,\"src/client/voice/ClientVoiceManager.js\":false,\"src/client/voice/VoiceBroadcast.js\":false,\"src/client/voice/VoiceConnection.js\":false,\"src/client/voice/dispatcher/BroadcastDispatcher.js\":false,\"src/client/voice/dispatcher/StreamDispatcher.js\":false,\"src/client/voice/networking/VoiceUDPClient.js\":false,\"src/client/voice/networking/VoiceWebSocket.js\":false,\"src/client/voice/player/AudioPlayer.js\":false,\"src/client/voice/player/BasePlayer.js\":false,\"src/client/voice/player/BroadcastAudioPlayer.js\":false,\"src/client/voice/receiver/PacketHandler.js\":false,\"src/client/voice/receiver/Receiver.js\":false,\"src/client/voice/util/PlayInterface.js\":false,\"src/client/voice/util/Secretbox.js\":false,\"src/client/voice/util/Silence.js\":false,\"src/client/voice/util/VolumeInterface.js\":false},\"husky\":{\"hooks\":{\"pre-commit\":\"lint-staged\",\"commit-msg\":\"commitlint -E HUSKY_GIT_PARAMS\"}},\"lint-staged\":{\"*.js\":\"eslint --fix\",\"*.ts\":\"prettier --write\"},\"commitlint\":{\"extends\":[\"@commitlint/config-angular\"],\"rules\":{\"scope-case\":[2,\"always\",\"pascal-case\"],\"type-enum\":[2,\"always\",[\"chore\",\"build\",\"ci\",\"docs\",\"feat\",\"fix\",\"perf\",\"refactor\",\"revert\",\"style\",\"test\"]]}},\"prettier\":{\"singleQuote\":true,\"printWidth\":120,\"trailingComma\":\"all\",\"endOfLine\":\"lf\",\"arrowParens\":\"avoid\"},\"_resolved\":\"https://registry.npmjs.org/discord.js/-/discord.js-12.5.1.tgz\",\"_integrity\":\"sha512-VwZkVaUAIOB9mKdca0I5MefPMTQJTNg0qdgi1huF3iwsFwJ0L5s/Y69AQe+iPmjuV6j9rtKoG0Ta0n9vgEIL6w==\",\"_from\":\"discord.js@12.5.1\"}");
 
 /***/ }),
 
@@ -35001,6 +35068,6 @@ module.exports = require("zlib");;
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(5240);
+/******/ 	return __nccwpck_require__(32);
 /******/ })()
 ;

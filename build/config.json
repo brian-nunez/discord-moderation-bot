@@ -4,7 +4,8 @@
   "ownerID": "",
   "roles": {
     "muted": "Muted",
-    "dev": "Developer"
+    "dev": "Developer",
+    "member": "Guest"
   },
   "moderation_channel": "",
   "mcserver": {
