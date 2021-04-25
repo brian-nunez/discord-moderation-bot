@@ -7,14 +7,6 @@ export default async (config, client, message, args) => {
     return;
   }
 
-  const role = message.guild.roles.cache.find(r => r.name === config.roles.member);
-
-  if (!role) {
-    response = await message.channel.send("Member role not set. Add role name to roles.member in the configuration file.");
-    await response.delete({ timeout: 30000 });
-    return;
-  }
-
   await message.channel.updateOverwrite(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
   await message.channel.send(':lock: Locked');
 }
