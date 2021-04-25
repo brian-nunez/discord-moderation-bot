@@ -33467,11 +33467,12 @@ class BotState {
 // CONCATENATED MODULE: ./src/commands/kick.js
 /* harmony default export */ const kick = (async (config, client, message, args) => {
   let response = null;
-  if (!message.member.hasPermission('KICK_MEMBERS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Kick members`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }
+
   const member = message.mentions.members.first();
 
   if (!member) {
@@ -33501,8 +33502,8 @@ class BotState {
 // CONCATENATED MODULE: ./src/commands/ban.js
 /* harmony default export */ const ban = (async (config, client, message, args) => {
   let response = null;
-  if (!message.member.hasPermission('BAN_MEMBERS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Ban members`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }
@@ -34255,7 +34256,7 @@ function getCountryCodeName(cc) {
 /* harmony default export */ const serverdata = (async (config, client, message, args) => {
   try {
     if (!(config.mcserver && config.mcserver.ip)) {
-      const response = await message.channel.send('Not Minecraft server data provided in config');
+      const response = await message.channel.send('No Minecraft server data provided in config');
       await response.delete({ timeout: 30000 });
       return;
     }
@@ -34300,8 +34301,8 @@ function getCountryCodeName(cc) {
 // CONCATENATED MODULE: ./src/commands/mute.js
 /* harmony default export */ const mute = (async (config, client, message, args) => {
   let response = null;
-  if (!message.member.hasPermission('MUTE_MEMBERS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }
@@ -34339,8 +34340,8 @@ function getCountryCodeName(cc) {
 // CONCATENATED MODULE: ./src/commands/unmute.js
 /* harmony default export */ const unmute = (async (config, client, message, args) => {
   let response = null;
-  if (!message.member.hasPermission('MUTE_MEMBERS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }
@@ -34378,8 +34379,8 @@ function getCountryCodeName(cc) {
 // CONCATENATED MODULE: ./src/commands/tempmute.js
 /* harmony default export */ const tempmute = (async (config, client, message, args) => {
   let response = null;
-  if (!message.member.hasPermission('MUTE_MEMBERS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Mute Members`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }
@@ -34658,15 +34659,15 @@ function getCountryCodeName(cc) {
 /* harmony default export */ const slowmode = (async (config, client, message, args) => {
   let response = null;
 
-  if (!message.member.hasPermission('MANAGE_CHANNELS')) {
-    response = await message.channel.send("Insufficient permissions (Requires permission `Manage Channels`)");
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    response = await message.channel.send("Insufficient permissions (Requires permission `Manage messages`)");
     await response.delete({ timeout: 30000 });
     return;
   }
 
   const [time] = args;
 
-  message.channel.setRateLimitPerUser(time , "reason");
+  message.channel.setRateLimitPerUser(time , "");
 });
 
 // CONCATENATED MODULE: ./src/commands/lock.js
