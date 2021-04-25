@@ -85,12 +85,18 @@ To run this project, you will need to set the following environment variables!
 ## Authors and Acknowledgement
 
 - [@brian-nunez](https://www.github.com/brian-nunez) for development and design.
+- [@Arcticultra](https://www.github.com/Arcticultra) for the idea.
 
 
 ## Feedback
 
-If you have any feedback, please reach out to us at fearlessstraw@gmail.com
+If you have any feedback on the development for the bot, please reach out to us at `fearlessstraw@gmail.com`
 
+For any questions about running your own discord server, please reach out to:
+
+Email: `Infodarklandmc@gmail.com`
+
+Discord Tag: `Ultra2021#0001`
 
 ## License
 

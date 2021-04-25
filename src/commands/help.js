@@ -28,14 +28,6 @@ export default async (config, client, message) => {
     message.member.hasPermission('MANAGE_MESSAGES') ||
     message.member.hasPermission('MUTE_MEMBERS')
   ) {
-    if (message.member.hasPermission('KICK_MEMBERS')) {
-      staffEmbed.addField(`\`kick\``, `Usage: **${config.prefix}kick [@User]**\n**${config.prefix}kick [@User][Reason]**`);
-    }
-    
-    if (message.member.hasPermission('BAN_MEMBERS')) {
-      staffEmbed.addField(`\`ban\``, `Usage: **${config.prefix}ban [@User]**\n**${config.prefix}ban [@User][Reason]**`);
-    }
-    
     if (message.member.hasPermission('MANAGE_ROLES')) {
       staffEmbed
         .addField(`\`add\``, `Adds a role to a user \nUsage: **${config.prefix}add [@User] [Role]**`)
@@ -48,16 +40,18 @@ export default async (config, client, message) => {
     
     if (message.member.hasPermission('MANAGE_MESSAGES')) {
       staffEmbed
-        .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`);
+        .addField(`\`mute\``, `Allows you to mute members ${config.prefix}mute`)
+        .addField(`\`unmute\``, `Allows you to unmute members ${config.prefix}unmute`)
+        .addField(`\`tempmute\``, `Allows you to temporarily mute members ${config.prefix}tempmute <member> [duration] (reason)`)
+        .addField(`\`ban\``, `Usage: **${config.prefix}ban [@User]**\n**${config.prefix}ban [@User][Reason]**`)
+        .addField(`\`kick\``, `Usage: **${config.prefix}kick [@User]**\n**${config.prefix}kick [@User][Reason]**`)
+        .addField(`\`purge\``, `Clears a number of messages between 2 or 100 \nUsage: **${config.prefix}purge [number]**`)
+        .addField(`\`slowmode\``, `Set a slowmode for the channel \nUsage: **${config.prefix}slowmode [number]**`)
+        .addField(`\`lock\``, `Locks current channel \nUsage: **${config.prefix}lock**`)
+        .addField(`\`unlock\``, `Unlocks current channel \nUsage: **${config.prefix}unlock**`);
     }
 
     if (message.member.hasPermission('MUTE_MEMBERS')) {
-      staffEmbed
-        .addField(`\`mute\``, `Allows you to mute members ${config.prefix}mute`);
-      staffEmbed
-        .addField(`\`unmute\``, `Allows you to unmute members ${config.prefix}unmute`);
-      staffEmbed
-        .addField(`\`tempmute\``, `Allows you to temporarily mute members ${config.prefix}mute <member> [duration] (reason)`);
       staffEmbed
         .addField(`\`warn\``, `Allows you to warn members ${config.prefix}warn <member> <reason>`);
       staffEmbed
