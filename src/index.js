@@ -2,11 +2,20 @@ import Discord from 'discord.js';
 import getConfig from './getConfig';
 import * as commands from './commands';
 import BotState from './utils/BotState';
+import { connectDB } from './utils/connectDB';
+
+const connection = connectDB();
+
+const createTableQuery = 'CREATE TABLE IF NOT EXISTS warns (memberID TEXT(144), reason TEXT)';
+
+connection.query(createTableQuery, function (error, results, fields) {
+  if (error) throw error;
+});
 
 const client = new Discord.Client();
 
 client.on('ready', _ => {
-  console.log("Bot Started");
+  console.log("Bot Started!!!");
 });
 
 client.on('message', async message => {
@@ -38,6 +47,7 @@ client.on('message', async message => {
 });
 
 process.on('SIGINT', function() {
+  connection.end();
   client.destroy();
   process.exit();
 });

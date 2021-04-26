@@ -11,5 +11,11 @@
   "mcserver": {
     "ip": ""
   },
+  "sql": {
+    "host": "",
+    "user": "",
+    "password": "",
+    "database": ""
+  },
   "footerMessage": ""
 }

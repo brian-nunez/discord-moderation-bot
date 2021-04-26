@@ -1,5 +1,8 @@
 import Discord from 'discord.js';
 import BotState from '../utils/BotState';
+import { query } from '../utils/connectDB';
+
+const DELETE_WARNS_QUERY = (memberID) => `DELETE FROM warns WHERE memberID='${memberID}'`;
 
 export default async (config, client, message, args) => {
   let response = null;
@@ -17,9 +20,9 @@ export default async (config, client, message, args) => {
     return;
   }
 
-  const amountRemoved = BotState.remove('warn', member.id);
+  const amountRemoved = await query(DELETE_WARNS_QUERY(member.id));
 
-  if (amountRemoved === 0) {
+  if (amountRemoved.affectedRows === 0) {
     const embed = new Discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`${member.user.username} was not warned`)
@@ -29,11 +32,11 @@ export default async (config, client, message, args) => {
     return;
   }
 
-  const extraChar = amountRemoved > 1 ? 's' : '';
+  const extraChar = amountRemoved.affectedRows > 1 ? 's' : '';
 
   const embed = new Discord.MessageEmbed()
     .setColor('GREEN')
-    .setTitle(`Removed ${amountRemoved} Warning Message${extraChar} for ${member.user.username}`)
+    .setTitle(`Removed ${amountRemoved.affectedRows} Warning Message${extraChar} for ${member.user.username}`)
     .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
   
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);

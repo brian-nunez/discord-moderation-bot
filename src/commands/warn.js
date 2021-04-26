@@ -1,5 +1,8 @@
 import Discord from 'discord.js';
 import BotState from '../utils/BotState';
+import { query } from '../utils/connectDB';
+
+const INSERT_WARN_QUERY = (memberID, reason) => `INSERT INTO warns (memberID, reason) VALUES ('${memberID}', '${reason}')`;
 
 export default async (config, client, message, args) => {
   let response = null;
@@ -25,10 +28,7 @@ export default async (config, client, message, args) => {
     return;
   }
 
-  BotState.add('warn', {
-    memberID: member.id,
-    reason: reason,
-  });
+  query(INSERT_WARN_QUERY(member.id, reason));
 
   const embed = new Discord.MessageEmbed()
     .setColor('GREEN')

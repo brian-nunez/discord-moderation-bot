@@ -1,5 +1,10 @@
+import { promisify } from 'util';
 import Discord from 'discord.js';
 import BotState from '../utils/BotState';
+import { query } from '../utils/connectDB';
+
+const SELECT_MEMBER_WARNS_QUERY = (memberID) => `SELECT * FROM warns WHERE memberID='${memberID}'`;
+const SELECT_ALL_WARNS_QUERY = () => 'SELECT * FROM warns';
 
 export default async (config, client, message, args) => {
   let response = null;
@@ -14,7 +19,7 @@ export default async (config, client, message, args) => {
   if (member) {
     const warnedMember = message.guild.members.cache.find(mem => mem.id === member.id);
 
-    const warnedMembers = BotState.getLogs('warn').filter(warn => warn.memberID === member.id);
+    const warnedMembers = await query(SELECT_MEMBER_WARNS_QUERY(member.id));
 
     if (warnedMembers.length === 0) {
       const embed = new Discord.MessageEmbed()
@@ -45,7 +50,7 @@ export default async (config, client, message, args) => {
     .setDescription(`List of all warned members`)
     .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
-  const warnedMembers = BotState.getLogs('warn');
+  const warnedMembers = await query(SELECT_ALL_WARNS_QUERY());
   
   embed.setTitle(`${client.user.username} Warns (${warnedMembers.length})`);
   for (let warn of warnedMembers) {
