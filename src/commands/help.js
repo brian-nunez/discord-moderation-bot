@@ -11,7 +11,7 @@ export default async (config, client, message) => {
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   await message.channel.send(helpEmbed);
 
@@ -19,7 +19,7 @@ export default async (config, client, message) => {
     .setColor('GREEN')
     .setTitle(`${client.user.username} commands`)
     .setDescription(`Staff Commands`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
@@ -66,7 +66,7 @@ export default async (config, client, message) => {
       .setColor('GREEN')
       .setTitle(`${client.user.username} commands`)
       .setDescription(`Owner Commands`)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     if (message.author.id === config.ownerID || BotState.getAllowDevelopers()) {
       if (message.author.id === config.ownerID) {

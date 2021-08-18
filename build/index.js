@@ -48808,7 +48808,7 @@ class BotState {
     .addField(`\`serverdata\``, 'Displays the minecraft servers basic data')
     .addField(`\`mcuuid\``, 'Displays minecraft user uuid Usage: mcuuid <Username>')
     .addField(`\`joke\``, 'Displays a random joke')
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   await message.channel.send(helpEmbed);
 
@@ -48816,7 +48816,7 @@ class BotState {
     .setColor('GREEN')
     .setTitle(`${client.user.username} commands`)
     .setDescription(`Staff Commands`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   if (
     message.member.hasPermission('KICK_MEMBERS') ||
@@ -48863,7 +48863,7 @@ class BotState {
       .setColor('GREEN')
       .setTitle(`${client.user.username} commands`)
       .setDescription(`Owner Commands`)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     if (message.author.id === config.ownerID || utils_BotState.getAllowDevelopers()) {
       if (message.author.id === config.ownerID) {
@@ -49311,7 +49311,7 @@ var lib_default = /*#__PURE__*/__nccwpck_require__.n(lib);
       .setColor('GREEN')
       .setTitle(`${response.setup}`)
       .setDescription(`> ${response.punchline}`)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -49604,7 +49604,7 @@ function getCountryCodeName(cc) {
       .addField('City', city || null)
       .addField('Region Name', region_name || null)
       .addField('Time Zone', time_zone || null)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(helpEmbed);
   } catch (e) {
@@ -49670,7 +49670,7 @@ function getCountryCodeName(cc) {
       .setDescription(`Data returned from Mojang`)
       .addField('UUID', id)
       .addField('Name', name)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(embed);
   } catch (e) {
@@ -49712,7 +49712,7 @@ function getCountryCodeName(cc) {
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
       .addField('IP', ip)
       .addField('Is Online', online)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     if (online) {
       embed
@@ -49945,7 +49945,7 @@ const INSERT_WARN_QUERY = (memberID, reason) => `INSERT INTO warns (memberID, re
     .setColor('GREEN')
     .setTitle(`Warned ${member.user.username}`)
     .setDescription(`Reason: ${reason}`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -49981,7 +49981,7 @@ const DELETE_WARNS_QUERY = (memberID) => `DELETE FROM warns WHERE memberID='${me
     const embed = new discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`${member.user.username} was not warned`)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
     
     message.channel.send(embed);
     return;
@@ -49992,7 +49992,7 @@ const DELETE_WARNS_QUERY = (memberID) => `DELETE FROM warns WHERE memberID='${me
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setTitle(`Removed ${amountRemoved.affectedRows} Warning Message${extraChar} for ${member.user.username}`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
   
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);
@@ -50030,7 +50030,7 @@ const SELECT_ALL_WARNS_QUERY = () => 'SELECT * FROM warns';
         .setColor('GREEN')
         .setTitle(`Member is clean :eyes:`)
         .setDescription(`This member has not been warned`)
-        .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+        .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
       await message.channel.send(embed);
       return
     }
@@ -50039,7 +50039,7 @@ const SELECT_ALL_WARNS_QUERY = () => 'SELECT * FROM warns';
       .setColor('GREEN')
       .setTitle(`Warned Player ${warnedMember.user.username}`)
       .setDescription(`List of all warnings for member`)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     warnedMembers.forEach((warn, idx) => {
       embed.addField(`Warn Number ${idx+1}.`, warn.reason);
@@ -50052,7 +50052,7 @@ const SELECT_ALL_WARNS_QUERY = () => 'SELECT * FROM warns';
   const embed = new discord.MessageEmbed()
     .setColor('GREEN')
     .setDescription(`List of all warned members`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   const warnedMembers = await query(SELECT_ALL_WARNS_QUERY());
   
@@ -50125,7 +50125,7 @@ const SELECT_ALL_WARNS_QUERY = () => 'SELECT * FROM warns';
       .setColor('GREEN')
       .setTitle(`Shortened URL`)
       .addField(`URL`, url || 'UNKNOWN')
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     await message.channel.send(embed);
   } catch (e) {

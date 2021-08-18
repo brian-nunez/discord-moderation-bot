@@ -34,7 +34,7 @@ export default async (config, client, message, args) => {
     .setColor('GREEN')
     .setTitle(`Warned ${member.user.username}`)
     .setDescription(`Reason: ${reason}`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);

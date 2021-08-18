@@ -26,7 +26,7 @@ export default async (config, client, message, args) => {
     const embed = new Discord.MessageEmbed()
       .setColor('GREEN')
       .setTitle(`${member.user.username} was not warned`)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
     
     message.channel.send(embed);
     return;
@@ -37,7 +37,7 @@ export default async (config, client, message, args) => {
   const embed = new Discord.MessageEmbed()
     .setColor('GREEN')
     .setTitle(`Removed ${amountRemoved.affectedRows} Warning Message${extraChar} for ${member.user.username}`)
-    .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+    .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
   
   const modChannel = await message.guild.channels.cache.find(channel => channel.id === config.moderation_channel);
   await modChannel.send(embed);

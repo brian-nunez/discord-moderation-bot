@@ -30,7 +30,7 @@ export default async (config, client, message, args) => {
       .setTitle(`Minecraft server ${config.mcserver.ip}`)
       .addField('IP', ip)
       .addField('Is Online', online)
-      .setFooter(`Created by Derthon#9538${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
+      .setFooter(`Created by Derthon#3605${config.footerMessage ? ` : ${config.footerMessage}` : ''}`);
 
     if (online) {
       embed
